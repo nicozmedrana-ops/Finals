@@ -1,0 +1,2056 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>DSA 1 Finals Reviewer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&family=JetBrains+Mono:wght@500;700&family=Public+Sans:wght@400;500;600;700&display=swap">
+<style>
+/* Layout concept: a study desk. Sticky tab bar on top, one topic per tab, each topic runs Learn → Try → Trace → Drill → Posttest. Green ink on cool paper, yellow used only as a highlighter. */
+:root{
+  --bg:#f3f6f0; --surface:#ffffff; --ink:#13211a; --muted:#4f6157; --line:#d3ddd0;
+  --green:#0b7a3a; --on-green:#ffffff; --green-soft:#e1f1e3;
+  --hl:#ffe14d; --hl-soft:#fff2ae; --on-hl:#2a2400;
+  --bad:#b3261e; --bad-soft:#fbe5e2; --good:#0b7a3a; --good-soft:#e1f1e3;
+  --code-bg:#0f1b15; --code-ink:#e4efe7; --c-kw:#8fd4a4; --c-str:#f3d66b; --c-com:#7f978a; --c-num:#9fc8ff;
+  --node-fill:#ffffff; --node-line:#0b7a3a; --node-hot:#ffe14d; --node-hot-ink:#2a2400;
+  --f-display:'Bricolage Grotesque','Trebuchet MS',system-ui,sans-serif;
+  --f-body:'Public Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-mono:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0d1511; --surface:#142019; --ink:#e7f0e9; --muted:#9bb0a3; --line:#25372c;
+    --green:#4fc47c; --on-green:#07200f; --green-soft:#173424;
+    --hl:#ffe14d; --hl-soft:#3b3410; --on-hl:#2a2400;
+    --bad:#ff958b; --bad-soft:#3a1c19; --good:#5fd38b; --good-soft:#173424;
+    --code-bg:#09110d; --code-ink:#e4efe7;
+    --node-fill:#142019; --node-line:#4fc47c; --node-hot:#ffe14d; --node-hot-ink:#2a2400;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0d1511; --surface:#142019; --ink:#e7f0e9; --muted:#9bb0a3; --line:#25372c;
+  --green:#4fc47c; --on-green:#07200f; --green-soft:#173424;
+  --hl:#ffe14d; --hl-soft:#3b3410; --on-hl:#2a2400;
+  --bad:#ff958b; --bad-soft:#3a1c19; --good:#5fd38b; --good-soft:#173424;
+  --code-bg:#09110d; --code-ink:#e4efe7;
+  --node-fill:#142019; --node-line:#4fc47c; --node-hot:#ffe14d; --node-hot-ink:#2a2400;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 56px;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+.wrap{max-width:920px;margin:0 auto}
+h1,h2,h3,h4{font-family:var(--f-display);line-height:1.15;text-wrap:balance;margin:0}
+h2{font-size:clamp(1.9rem,6vw,2.6rem);font-weight:800;letter-spacing:-.02em}
+h3{font-size:1.4rem;font-weight:700;letter-spacing:-.01em;margin-top:2.4rem;padding-top:.2rem;scroll-margin-top:130px}
+h4{font-size:1.05rem;font-weight:700;margin-top:1.4rem}
+p{margin:.7em 0;max-width:68ch}
+ul,ol{padding-left:1.3em;margin:.6em 0;max-width:68ch}
+li{margin:.3em 0}
+a{color:var(--green)}
+b,strong{font-weight:700}
+small{color:var(--muted)}
+code{font-family:var(--f-mono);font-size:.88em;background:var(--green-soft);padding:.08em .35em;border-radius:4px}
+pre code{background:none;padding:0;font-size:inherit}
+mark,.hl{background:linear-gradient(transparent 55%,var(--hl) 55%);color:inherit;padding:0 .1em}
+:focus-visible{outline:3px solid var(--green);outline-offset:2px}
+
+/* header + tabs */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px))) calc(-1 * max(16px,env(safe-area-inset-right,0px)));padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+.top-in{max-width:920px;margin:0 auto;padding:10px 0 0}
+.brand{display:flex;align-items:center;gap:10px;padding-bottom:8px}
+.brand svg{width:30px;height:30px;flex:none;color:var(--green)}
+.brand b{font-family:var(--f-display);font-size:1.1rem;letter-spacing:-.01em;display:block;line-height:1.1}
+.brand small{display:block;font-size:.78rem;line-height:1.2}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:2px 0 10px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab{flex:none;font:600 .92rem var(--f-body);color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:7px 14px;cursor:pointer;white-space:nowrap}
+.tab:hover{border-color:var(--green)}
+.tab[aria-selected="true"]{background:var(--green);border-color:var(--green);color:var(--on-green)}
+
+/* panels */
+.panel{padding-top:28px}
+.eyebrow{font:600 .78rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:0 0 6px}
+.lede{font-size:1.15rem;margin:.6em 0 0;max-width:60ch}
+.lede mark{font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0}
+.chip{font:600 .84rem var(--f-body);background:var(--surface);color:var(--ink);border:1.5px solid var(--line);border-radius:999px;padding:5px 12px;cursor:pointer}
+.chip:hover{border-color:var(--green);color:var(--green)}
+.chip[aria-pressed="true"]{background:var(--green);color:var(--on-green);border-color:var(--green)}
+
+/* callouts */
+.note{border:1.5px solid var(--line);background:var(--surface);border-radius:10px;padding:12px 16px;margin:1.1em 0;max-width:72ch}
+.note>b:first-child{display:block;font:700 .72rem var(--f-mono);letter-spacing:.09em;text-transform:uppercase;margin-bottom:4px;color:var(--green)}
+.note p{margin:.35em 0}
+.note.trap{background:var(--hl-soft);border-color:var(--hl);color:inherit}
+.note.trap>b:first-child{color:var(--ink)}
+.note.beyond{border-style:dashed}
+.note.beyond>b:first-child{color:var(--muted)}
+
+/* tables */
+.tw{overflow-x:auto;margin:1em 0;border:1.5px solid var(--line);border-radius:10px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.93rem}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font:700 .74rem var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted);background:var(--bg)}
+tr:last-child td{border-bottom:0}
+td.big,.cx{font-family:var(--f-mono);font-weight:700;white-space:nowrap}
+.good{color:var(--good)}.bad{color:var(--bad)}
+
+/* code */
+pre{background:var(--code-bg);color:var(--code-ink);border-radius:10px;padding:14px 16px;overflow-x:auto;font:.84rem/1.55 var(--f-mono);margin:.9em 0;max-width:100%;tab-size:2}
+pre.out{background:var(--surface);color:var(--ink);border:1.5px solid var(--line);white-space:pre-wrap;overflow-wrap:anywhere}
+.c-kw{color:var(--c-kw);font-weight:600}.c-str{color:var(--c-str)}.c-com{color:var(--c-com);font-style:italic}.c-num{color:var(--c-num)}
+pre.out .c-kw,pre.out .c-str,pre.out .c-com,pre.out .c-num{color:inherit;font-weight:inherit;font-style:normal}
+.codelabel{font:600 .8rem var(--f-mono);color:var(--muted);margin:1.2em 0 -.4em}
+
+/* two-col helper */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin:1em 0}
+.cols>*{min-width:0}
+.card{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;min-width:0}
+.card h4{margin:0 0 4px;font-size:1rem}
+.card p{margin:.3em 0;font-size:.95rem}
+
+/* lab */
+.lab{background:var(--surface);border:1.5px solid var(--green);border-radius:14px;padding:16px;margin:1.2em 0}
+.lab>.lab-title{font:700 .74rem var(--f-mono);letter-spacing:.09em;text-transform:uppercase;color:var(--green);margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0}
+.row>*{min-width:0}
+label.f{display:flex;flex-direction:column;gap:3px;font:600 .78rem var(--f-body);color:var(--muted)}
+input[type=text],input[type=number],select,textarea{font:1rem var(--f-mono);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:8px 10px;min-width:0;max-width:100%}
+input[type=text]{width:9.5em}
+input.wide{width:100%;max-width:26em}
+textarea{width:100%;max-width:30em;min-height:4.2em;resize:vertical}
+.btn{font:700 .9rem var(--f-body);background:var(--green);color:var(--on-green);border:1.5px solid var(--green);border-radius:8px;padding:8px 14px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn.ghost{background:transparent;color:var(--green)}
+.btn.sm{padding:5px 10px;font-size:.82rem}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.log{font:.82rem/1.6 var(--f-mono);background:var(--bg);border:1.5px solid var(--line);border-radius:8px;padding:10px 12px;margin:10px 0 0;max-height:13em;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.log div+div{margin-top:1px}
+.log .hit{background:var(--hl);color:var(--on-hl);padding:0 .2em;border-radius:3px}
+.readout{display:flex;flex-wrap:wrap;gap:6px 18px;font:.84rem var(--f-mono);color:var(--muted);margin:8px 0}
+.readout b{color:var(--ink)}
+.seq{font:600 .95rem var(--f-mono);margin:8px 0;overflow-wrap:anywhere}
+.seq .k{display:inline-block;min-width:1.9em;text-align:center;background:var(--hl);color:var(--on-hl);border-radius:5px;padding:0 .35em;margin:1px}
+
+/* queue visuals */
+.qrow{display:flex;gap:6px;align-items:flex-end;overflow-x:auto;padding:22px 2px 6px;min-height:92px}
+.qcell{flex:none;min-width:48px;height:48px;border:2px solid var(--green);border-radius:8px;display:flex;align-items:center;justify-content:center;font:700 1.05rem var(--f-mono);background:var(--node-fill);position:relative}
+.qcell .tag{position:absolute;top:-19px;left:50%;transform:translateX(-50%);font:700 .64rem var(--f-mono);letter-spacing:.05em;color:var(--green);white-space:nowrap}
+.qcell .tag.b{top:auto;bottom:-19px;color:var(--muted)}
+.qempty{font:.9rem var(--f-mono);color:var(--muted);padding:12px 0}
+.qdiagram{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:1em 0;font:600 .8rem var(--f-mono);color:var(--muted)}
+.qdiagram .qcell{min-width:44px;height:44px;font-size:.95rem}
+
+/* trees + svg */
+.svgbox{overflow-x:auto;border:1.5px solid var(--line);border-radius:10px;background:var(--bg);margin:10px 0;padding:6px}
+.svgbox svg{display:block;margin:0 auto;max-width:none}
+.tn circle{fill:var(--node-fill);stroke:var(--node-line);stroke-width:2;transition:fill .2s}
+.tn text{font:700 13px var(--f-mono);fill:var(--ink);text-anchor:middle;dominant-baseline:central;pointer-events:none}
+.tn.hot circle{fill:var(--node-hot);stroke:var(--node-hot)}
+.tn.hot text{fill:var(--node-hot-ink)}
+.tn.done circle{fill:var(--green-soft)}
+.te{stroke:var(--muted);stroke-width:1.8;fill:none}
+.lv{font:600 11px var(--f-mono);fill:var(--muted)}
+.gn circle{fill:var(--node-fill);stroke:var(--node-line);stroke-width:2}
+.gn text{font:700 13px var(--f-mono);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.gn.c1 circle{fill:var(--hl);stroke:var(--hl)}
+.gn.c1 text{fill:var(--on-hl)}
+.ge{stroke:var(--muted);stroke-width:2}
+.garrow{fill:var(--muted)}
+
+/* hash table */
+.ht{border-collapse:collapse;min-width:0;width:auto;font:.92rem var(--f-mono)}
+.ht th,.ht td{border:1px solid var(--line);padding:6px 14px;text-align:center}
+.ht tr.hot td{background:var(--hl);color:var(--on-hl)}
+.ht tr.ok td{background:var(--good-soft)}
+.ht td.empty{color:var(--muted)}
+
+/* quiz */
+.quiz-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:.6em 0}
+.score{font:700 .86rem var(--f-mono);color:var(--green)}
+.qi{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin:10px 0}
+.qi .qt{margin:0 0 10px;font-weight:600;max-width:none}
+.qi .qn{display:inline-block;min-width:1.7em;font:700 .82rem var(--f-mono);color:var(--green);margin-right:4px}
+.opts{display:flex;flex-direction:column;gap:7px}
+.opts.tf{flex-direction:row}
+.opt{display:flex;gap:10px;align-items:flex-start;text-align:left;font:500 .95rem var(--f-body);color:var(--ink);background:var(--bg);border:1.5px solid var(--line);border-radius:9px;padding:9px 12px;cursor:pointer;width:100%}
+.opts.tf .opt{width:auto;min-width:5.5em;justify-content:center;font-weight:700}
+.opt:hover:not(:disabled){border-color:var(--green)}
+.opt .l{font:700 .8rem var(--f-mono);color:var(--green);min-width:1.2em}
+.opt.sel{border-color:var(--green);background:var(--green-soft)}
+.opt.right{border-color:var(--good);background:var(--good-soft)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-soft)}
+.opt:disabled{cursor:default;color:var(--ink)}
+.why{margin-top:10px;padding:10px 12px;border-radius:9px;font-size:.93rem;background:var(--bg);border:1.5px solid var(--line)}
+.why.ok{border-color:var(--good)}.why.no{border-color:var(--bad)}
+.why .v{font:700 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase}
+.why.ok .v{color:var(--good)}.why.no .v{color:var(--bad)}
+.why p{margin:.3em 0}
+.why .flag{background:var(--hl-soft);border:1.5px solid var(--hl);border-radius:7px;padding:6px 9px;margin-top:8px;font-size:.88rem}
+
+/* trace */
+.trace{background:var(--surface);border:1.5px solid var(--line);border-radius:12px;padding:14px 16px;margin:12px 0}
+.trace h4{margin:0 0 4px}
+.trace .ans{margin-top:10px}
+.trace .ans h5{font:700 .72rem var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--green);margin:12px 0 4px}
+.trace ol{font-size:.93rem}
+
+.defs{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 18px;margin:1em 0;padding:0;list-style:none;max-width:none}
+.defs li{margin:0;padding:8px 0;border-bottom:1px solid var(--line)}
+.defs b{font-family:var(--f-display)}
+footer.end{margin-top:56px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:.85rem}
+@media (max-width:520px){
+  h3{font-size:1.25rem}
+  .lab{padding:12px}
+  .opts.tf .opt{flex:1}
+}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+<div class="wrap">
+<header class="top"><div class="top-in">
+  <div class="brand">
+    <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="16" cy="7" r="4"/><circle cx="8" cy="24" r="4"/><circle cx="24" cy="24" r="4"/><path d="M13.6 10.2 10 20.6M18.4 10.2 22 20.6"/></svg>
+    <div><b>DSA 1 Finals Reviewer</b><small>Pamantasan ng Cabuyao · Lessons 9 to 12</small></div>
+  </div>
+  <nav class="tabs" role="tablist" aria-label="Topics">
+    <button class="tab" role="tab" id="t-overview" data-tab="overview" type="button">Overview</button>
+    <button class="tab" role="tab" id="t-queue" data-tab="queue" type="button">Queue</button>
+    <button class="tab" role="tab" id="t-binary" data-tab="binary" type="button">Binary Tree</button>
+    <button class="tab" role="tab" id="t-bst" data-tab="bst" type="button">BST</button>
+    <button class="tab" role="tab" id="t-graph" data-tab="graph" type="button">Graph</button>
+    <button class="tab" role="tab" id="t-hash" data-tab="hash" type="button">Hash Maps</button>
+  </nav>
+</div></header>
+
+<main>
+<!-- ===================== OVERVIEW ===================== -->
+<section class="panel" id="p-overview" role="tabpanel" aria-labelledby="t-overview" hidden>
+  <p class="eyebrow">Start here</p>
+  <h2>Everything you need for the finals</h2>
+  <p class="lede">Built from your DSA 1 workbook. Each topic follows the same path: <mark>learn it, play with it, trace the output, drill the complexity, then take the posttest.</mark></p>
+
+  <h3 id="o-how">How to study with this page</h3>
+  <ol>
+    <li><b>Learn</b> the short notes. Read the "Remember" and "Exam trap" boxes twice.</li>
+    <li><b>Try it</b> in the lab. Guess what a button will do before you press it.</li>
+    <li><b>Trace</b> every code question on paper first. Only then reveal the answer.</li>
+    <li><b>Drill</b> complexity until you answer without thinking.</li>
+    <li><b>Posttest</b> last. Wrong answers explain themselves, so read them.</li>
+  </ol>
+
+  <h3 id="o-table">Master complexity table</h3>
+  <p>If the exam asks for Big-O, the answer is somewhere in this table. The "why" column is what lets you rebuild any row from memory.</p>
+  <div class="tw"><table>
+    <tr><th>Structure</th><th>Operation</th><th>Time</th><th>Why</th></tr>
+    <tr><td rowspan="4">Queue</td><td>enqueue</td><td class="big">O(1)</td><td>Only the tail pointer changes.</td></tr>
+    <tr><td>dequeue</td><td class="big">O(1)</td><td>Only the head pointer changes.</td></tr>
+    <tr><td>peek</td><td class="big">O(1)</td><td>Read <code>head.data</code>, nothing moves.</td></tr>
+    <tr><td>search for a value</td><td class="big">O(n)</td><td>Must walk the line.</td></tr>
+    <tr><td rowspan="3">Binary tree</td><td>any traversal</td><td class="big">O(n)</td><td>Every node is visited exactly once.</td></tr>
+    <tr><td>level-order insert</td><td class="big">O(n)</td><td>May scan many nodes before finding an empty spot.</td></tr>
+    <tr><td>search (unordered)</td><td class="big">O(n)</td><td>No order to exploit, so check everything.</td></tr>
+    <tr><td rowspan="2">Binary search tree</td><td>search / insert, balanced</td><td class="big">O(log n)</td><td>Each comparison throws away half the tree.</td></tr>
+    <tr><td>search / insert, skewed</td><td class="big">O(n)</td><td>The tree is a linked list in disguise.</td></tr>
+    <tr><td rowspan="7">Graph</td><td>add vertex</td><td class="big">O(1)</td><td>Append to the vertex list.</td></tr>
+    <tr><td>add edge</td><td class="big">O(1)</td><td>Append to the neighbor lists.</td></tr>
+    <tr><td>remove vertex</td><td class="big">O(V + E)</td><td>Also delete every edge touching it.</td></tr>
+    <tr><td>remove edge</td><td class="big">O(V + E)</td><td>Per the lesson.</td></tr>
+    <tr><td>search vertex</td><td class="big">O(V)</td><td>Scan the vertices.</td></tr>
+    <tr><td>search edge</td><td class="big">O(E)</td><td>Scan the edges.</td></tr>
+    <tr><td>DFS / BFS traversal</td><td class="big">O(V + E)</td><td>Each vertex and edge is visited once.</td></tr>
+    <tr><td rowspan="2">Hash map</td><td>put / get / search, average</td><td class="big">O(1)</td><td>Hash function jumps straight to the slot.</td></tr>
+    <tr><td>worst case</td><td class="big">O(n)</td><td>Everything collides and probing walks the table.</td></tr>
+    <tr><td>Array / linked list</td><td>linear search</td><td class="big">O(n)</td><td>Check one element at a time.</td></tr>
+  </table></div>
+  <p><b>Growth order, smallest to largest:</b> <code>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²)</code>.</p>
+
+  <h3 id="o-habits">Habits that win exam points</h3>
+  <ul>
+    <li><b>Output tracing:</b> after every line, write down the state (queue contents, tree shape, table slots). Do not run the whole program in your head.</li>
+    <li><b>Discarded return values print nothing.</b> Calling <code>queue.dequeue();</code> without printing the result shows only what the method itself prints.</li>
+    <li><b>Insertion order decides tree shape.</b> The same keys in a different order give a different tree.</li>
+    <li><b>Name the case.</b> "O(log n)" is a balanced or average answer. "O(n)" is the skewed or worst answer.</li>
+    <li><b>Absolute words in True/False</b> (only, always, never, must) are usually the trap.</li>
+  </ul>
+
+  <h3 id="o-typos">Typos in the slides you may notice</h3>
+  <div class="note beyond"><b>Do not let these confuse you</b>
+    <p>Hash map lesson, step 2: the slide writes <code>hash(10) = 3</code> after computing <code>17 % 7</code>. It should say <code>hash(17) = 3</code>. The answer, index 3, is right.</p>
+    <p>Graph lesson, Example 2: the picture is captioned "Undirected Graph", but the text uses ordered pairs <code>( )</code>, which means a <b>directed</b> graph. Go by the notation.</p>
+    <p>The BST code prints <code>does not exists</code> (with the extra s). Copy that exactly if an output question asks for it.</p>
+    <p>The factorial task in the workbook shows "nn" and "n!n!" from a formatting slip. It means n and n!.</p>
+  </div>
+</section>
+
+<!-- ===================== QUEUE ===================== -->
+<section class="panel" id="p-queue" role="tabpanel" aria-labelledby="t-queue" hidden>
+  <p class="eyebrow">Lesson 9</p>
+  <h2>Queue</h2>
+  <p class="lede">A queue is a line. <mark>First in, first out.</mark> Whoever has waited longest is served next.</p>
+  <div class="chips" data-nav>
+    <button class="chip" data-go="q-learn" type="button">Learn</button>
+    <button class="chip" data-go="q-lab" type="button">Try it</button>
+    <button class="chip" data-go="q-trace" type="button">Trace the output</button>
+    <button class="chip" data-go="q-drill" type="button">Complexity drill</button>
+    <button class="chip" data-go="q-post" type="button">Posttest</button>
+  </div>
+
+  <h3 id="q-learn">1. What a queue is</h3>
+  <p>Picture the line at a bus ticket counter. New people join at the <b>back</b>. The cashier serves the person at the <b>front</b>. Nobody can cut in, and nobody is served from the middle. That is the whole idea.</p>
+  <div class="qdiagram" aria-label="Queue diagram">
+    <span>enqueue →</span>
+    <div class="qcell">D</div><div class="qcell">C</div><div class="qcell">B</div><div class="qcell">A</div>
+    <span>→ dequeue</span>
+  </div>
+  <p style="margin-top:-.4em"><small>D just joined at the back (tail). A has waited longest and leaves first from the front (head).</small></p>
+  <ul class="defs">
+    <li><b>FIFO</b><br>First-In-First-Out, the rule of a queue.</li>
+    <li><b>Front / head</b><br>Where items leave. Oldest item.</li>
+    <li><b>Back / rear / tail</b><br>Where items join. Newest item.</li>
+    <li><b>Underflow</b><br>Trying to dequeue from an empty queue.</li>
+  </ul>
+
+  <h3 id="q-ops">2. The operations</h3>
+  <div class="tw"><table>
+    <tr><th>Operation</th><th>What it does</th><th>Result in the lesson's code</th><th>Time</th></tr>
+    <tr><td><code>enqueue(x)</code></td><td>Adds x at the back</td><td>Returns nothing. Prints <code>x has been added to the queue.</code></td><td class="big">O(1)</td></tr>
+    <tr><td><code>dequeue()</code></td><td>Removes the front item</td><td>Returns the removed <b>value</b>. If empty: prints <code>Queue Underflow: No elements to dequeue.</code> and returns <code>null</code></td><td class="big">O(1)</td></tr>
+    <tr><td><code>peek()</code></td><td>Looks at the front, removes nothing</td><td>Returns the front value. If empty: prints <code>No elements to display.</code> and returns <code>null</code></td><td class="big">O(1)</td></tr>
+    <tr><td><code>isEmpty()</code></td><td>Checks <code>head == null</code></td><td>Returns true or false</td><td class="big">O(1)</td></tr>
+  </table></div>
+  <div class="note trap"><b>Exam trap</b>
+    <p>None of these operations returns an <b>index or position</b>. Dequeue returns the <b>value</b> it removed. Enqueue returns nothing useful. Posttest items 2 and 8 test exactly this.</p>
+  </div>
+
+  <h3 id="q-why">3. Why enqueue and dequeue are O(1)</h3>
+  <p>The lesson builds the queue from linked-list nodes. Each <code>Node</code> holds <code>data</code> and a <code>next</code> link. The <code>Queue</code> keeps <b>two</b> pointers: <code>head</code> and <code>tail</code>.</p>
+  <pre class="out">head → [7] → [3] → [9] → null
+                      ↑
+                    tail</pre>
+  <ul>
+    <li><b>enqueue</b> uses <code>tail</code> to attach the new node. No walking.</li>
+    <li><b>dequeue</b> uses <code>head</code> to detach the first node. No walking.</li>
+  </ul>
+  <div class="note"><b>Remember</b>
+    <p>If the queue kept only a head pointer, enqueue would have to walk the whole list to find the end. That is O(n). The tail pointer is the reason it is O(1).</p>
+  </div>
+
+  <h3 id="q-code">4. Reading the code</h3>
+  <pre><code class="java">public void enqueue(int data) {
+   Node newNode = new Node();
+   newNode.setData(data);
+
+   if (isEmpty()) {
+      head = tail = newNode;      // first item: head and tail are the same node
+   } else {
+      tail.setNext(newNode);      // old last node points to the new one
+      tail = newNode;             // tail moves to the new node
+   }
+   System.out.println(data + " has been added to the queue.");
+}
+
+public Integer dequeue() {
+   if (isEmpty()) {
+      System.out.println("Queue Underflow: No elements to dequeue.");
+      return null;
+   }
+   int value = head.getData();    // save the front value
+   Node newHead = head.getNext(); // remember the second node
+   head.setNext(null);            // cut the old head loose
+   head = newHead;                // second node is now the front
+
+   if (head == null) {            // queue became empty
+      tail = null;                // so tail must be cleared too
+   }
+   return value;
+}</code></pre>
+  <div class="note trap"><b>Why <code>tail = null</code>?</b>
+    <p>If the last item is removed and tail still points at it, the next <code>enqueue</code> would attach to a node that is no longer in the queue. Clearing tail keeps an empty queue truly empty (<code>head == tail == null</code>). A common "why is this line here" question.</p>
+  </div>
+
+  <h3 id="q-vs">5. Queue vs stack</h3>
+  <div class="tw"><table>
+    <tr><th></th><th>Queue</th><th>Stack</th></tr>
+    <tr><td>Rule</td><td>FIFO: first in, first out</td><td>LIFO: last in, first out</td></tr>
+    <tr><td>Add at</td><td>back (tail)</td><td>top</td></tr>
+    <tr><td>Remove from</td><td>front (head)</td><td>top</td></tr>
+    <tr><td>Insert 1, 2, 3 then remove once</td><td>removes <b>1</b></td><td>removes <b>3</b></td></tr>
+    <tr><td>Real life</td><td>ticket line, printer, ATM line</td><td>undo/redo, browser Back button</td></tr>
+  </table></div>
+
+  <h3 id="q-apps">6. Where queues are used</h3>
+  <p>Anything that says "in the order received" is a queue.</p>
+  <div class="cols">
+    <div class="card"><h4>Operating systems</h4><p>CPU scheduling (processes wait for CPU time). Print queue (documents print in order).</p></div>
+    <div class="card"><h4>Buffers</h4><p>Streaming and video playback. I/O buffers such as the keyboard input buffer, because devices run at different speeds.</p></div>
+    <div class="card"><h4>Messaging</h4><p>Message queues between processes or threads. SMS and email systems.</p></div>
+    <div class="card"><h4>Service lines</h4><p>Call centers, airline ticketing, checkout lines, traffic management simulations.</p></div>
+  </div>
+
+  <h3 id="q-lab">7. Try it</h3>
+  <p>Use the lab to rebuild the lesson's output. Try: enqueue 5, dequeue, dequeue again (underflow), enqueue 7, 3, 9, dequeue, peek.</p>
+  <div data-comp="queue-lab"></div>
+
+  <h3 id="q-trace">8. Trace the output</h3>
+  <p>Write the output on paper first. Return values that are not printed do not appear.</p>
+  <div data-trace="queue"></div>
+
+  <h3 id="q-drill">9. Complexity and concept drill</h3>
+  <div data-quiz="queue-mcq"></div>
+
+  <h3 id="q-post">10. Lesson 9 posttest</h3>
+  <h4>I. True or False</h4>
+  <div data-quiz="queue-tf"></div>
+  <h4>II. Select all that apply</h4>
+  <div data-quiz="queue-sata"></div>
+</section>
+<!-- ===================== BINARY TREE ===================== -->
+<section class="panel" id="p-binary" role="tabpanel" aria-labelledby="t-binary" hidden>
+  <p class="eyebrow">Lesson 10, part 1</p>
+  <h2>Binary Tree</h2>
+  <p class="lede">A tree stores data as a hierarchy. In a binary tree, <mark>every node has at most two children: a left and a right.</mark></p>
+  <div class="chips" data-nav>
+    <button class="chip" data-go="b-learn" type="button">Learn</button>
+    <button class="chip" data-go="b-trav" type="button">Traversals</button>
+    <button class="chip" data-go="b-insert" type="button">Insertion</button>
+    <button class="chip" data-go="b-trace" type="button">Trace the output</button>
+    <button class="chip" data-go="b-app" type="button">Workbook application</button>
+    <button class="chip" data-go="b-prog" type="button">Factorial</button>
+    <button class="chip" data-go="b-drill" type="button">Drill</button>
+  </div>
+
+  <h3 id="b-learn">1. Why trees exist</h3>
+  <p>Arrays and linked lists are <b>linear</b>. To find something you check one element after another, which is O(n) in the worst case. A tree is <b>nonlinear</b>: each node can branch to several others, like folders inside folders or an org chart. A tree can also be empty (no nodes at all).</p>
+
+  <h3 id="b-terms">2. The vocabulary, on a real tree</h3>
+  <p>Tap a term to see which nodes it means. Terms are the easiest marks on the exam.</p>
+  <div data-comp="term-viz"></div>
+  <ul class="defs">
+    <li><b>Node</b><br>One element: holds data (the key) and may have children.</li>
+    <li><b>Edge</b><br>The link between two nodes.</li>
+    <li><b>Path</b><br>The sequence of nodes along edges.</li>
+    <li><b>Root</b><br>Topmost node. Level 0. Everyone descends from it.</li>
+    <li><b>Parent / Child</b><br>A parent has one or more children. Any node except the root has exactly one parent.</li>
+    <li><b>Siblings</b><br>Children of the same parent.</li>
+    <li><b>Leaf</b><br>A node with no children. A terminal node.</li>
+    <li><b>Subtree</b><br>A node plus all its descendants, treating that node as the root.</li>
+    <li><b>Level</b><br>Number of edges from the root to the node. Root is 0.</li>
+    <li><b>Key</b><br>The value stored in a node.</li>
+  </ul>
+  <div class="note trap"><b>Exam trap</b>
+    <p>The <b>root</b> is the first node. The <b>leaf</b> is the last, with no children. Posttest item 7 swaps them.</p>
+  </div>
+  <div class="note beyond"><b>Beyond the slides, but easy to ask</b>
+    <p>A tree with <b>n nodes has n − 1 edges</b>. Level L holds at most <b>2<sup>L</sup></b> nodes. A binary tree of height h holds at most <b>2<sup>h+1</sup> − 1</b> nodes (height 3 gives 15).</p>
+  </div>
+  <p><b>Binary tree is not the same as binary search tree.</b> A plain binary tree has no ordering rule. It only limits each node to two children. The sorted-order rule belongs to the BST (next tab).</p>
+
+  <h3 id="b-trav">3. Traversal: visiting every node</h3>
+  <p>You cannot jump to a node in a tree. You always start at the root and follow edges. There are three standard orders, and all three are recursive. The only difference is <b>when the root of each subtree is visited</b>.</p>
+  <div class="tw"><table>
+    <tr><th>Traversal</th><th>Pattern</th><th>Memory hook</th><th>Result for the A to G tree</th></tr>
+    <tr><td>Pre-order</td><td>Root, Left, Right</td><td>root comes <b>pre</b>, before its children</td><td class="big">A B D E C F G</td></tr>
+    <tr><td>In-order</td><td>Left, Root, Right</td><td>root sits <b>in</b> the middle</td><td class="big">D B E A F C G</td></tr>
+    <tr><td>Post-order</td><td>Left, Right, Root</td><td>root comes <b>post</b>, after its children</td><td class="big">D E B F G C A</td></tr>
+  </table></div>
+  <p>Watch the three orders walk the same tree. Use <b>Step</b> to move one node at a time.</p>
+  <div data-comp="trav-viz"></div>
+  <div class="note"><b>Remember</b>
+    <p><b>In-order on a binary search tree gives the keys sorted in ascending order.</b> This is the most tested fact about traversals.</p>
+  </div>
+  <h4>The hand shortcut (no recursion needed)</h4>
+  <p>Draw a small dot next to every node: on its <b>left</b> side for pre-order, <b>underneath</b> for in-order, on its <b>right</b> side for post-order. Now trace a line around the outside of the tree, starting left of the root and hugging every branch. Read the dots in the order the line touches them. That is your answer.</p>
+  <h4>What the recursion really does</h4>
+  <pre><code class="java">public void printInorder(Node node) {
+   if (node == null)
+      return;                          // nothing here, go back up
+   printInorder(node.getLeft());       // 1. whole left subtree first
+   System.out.print(node.getKey() + " "); // 2. then this node
+   printInorder(node.getRight());      // 3. then the whole right subtree
+}</code></pre>
+  <p>For a tiny tree with A as root, B on the left, C on the right, <code>printInorder(A)</code> runs like this:</p>
+  <ol>
+    <li>Call on A. Its left is B, so call on B.</li>
+    <li>Call on B. Left is null, returns. <b>Print B</b>. Right is null, returns. Back to A.</li>
+    <li><b>Print A</b>.</li>
+    <li>Call on C. Left is null, returns. <b>Print C</b>. Right is null, returns.</li>
+  </ol>
+  <p>Output: <code>B A C</code>. Pre-order and post-order differ only in where the print line sits: first line for pre-order, last line for post-order.</p>
+
+  <h3 id="b-insert">4. Inserting into a binary tree</h3>
+  <p>The Lesson 10 <code>insert()</code> fills the <b>first empty spot</b> it finds scanning the tree <b>level by level, left to right</b>. It uses a <b>queue</b> to do the scanning, which is why the queue lesson comes first.</p>
+  <ol>
+    <li>Put the root in a queue.</li>
+    <li>While the queue is not empty, take the front node out.</li>
+    <li>If its <b>left</b> child is empty, put the new node there and stop. Otherwise add the left child to the queue.</li>
+    <li>If its <b>right</b> child is empty, put the new node there and stop. Otherwise add the right child to the queue.</li>
+    <li>Repeat.</li>
+  </ol>
+  <p>Type keys into the lab. The log shows the queue at work for the <b>last</b> key you inserted. Try the lesson's sample: <code>10 11 7 9 15 8 13 12</code>.</p>
+  <div data-comp="level-lab"></div>
+  <div class="note trap"><b>Exam trap</b>
+    <p>This insertion does <b>not</b> compare values. 5 can end up left of 50 or right of 50. It only cares about the next empty spot. Comparing values is what a BST does.</p>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Operation</th><th>Time</th><th>Reason</th></tr>
+    <tr><td>Traversal (pre, in, post)</td><td class="big">O(n)</td><td>Each of the n nodes is visited once.</td></tr>
+    <tr><td>Level-order insert</td><td class="big">O(n)</td><td>In the worst case the queue passes through most of the tree.</td></tr>
+    <tr><td>Search in an unordered binary tree</td><td class="big">O(n)</td><td>No order, so any node could hold the key.</td></tr>
+    <tr><td>Recursion depth</td><td class="big">O(h)</td><td>Pending calls equal the height of the tree.</td></tr>
+  </table></div>
+
+  <h3 id="b-trace">5. Trace the output</h3>
+  <div data-trace="binary"></div>
+
+  <h3 id="b-app">6. Workbook application: traversals</h3>
+  <p>The workbook gives four insert lists and asks for pre-order, in-order and post-order. It says "binary trees", but the Lesson 10 sample uses level-order <code>insert()</code> and the BST lesson uses comparison. Both answers are below so you can match your instructor's rule. If the question names a <b>BST</b>, use the BST rule.</p>
+  <div data-comp="app-practice"></div>
+
+  <h3 id="b-prog">7. Programming task: recursive factorial</h3>
+  <p>Factorial is the classic first recursion. <code>n! = n × (n−1) × … × 1</code>, and <code>0! = 1</code>. The two things graders look for: a <b>base case</b> that stops the recursion, and a <b>recursive case</b> that moves toward it.</p>
+  <pre><code class="java">public class Factorial {
+
+   // returns n! for a non-negative integer n
+   public static long factorial(int n) {
+      if (n &lt; 0) {
+         throw new IllegalArgumentException("n must be non-negative");
+      }
+      if (n == 0) {
+         return 1;                    // base case: 0! is defined as 1
+      }
+      return n * factorial(n - 1);    // recursive case: n! = n * (n-1)!
+   }
+
+   public static void main(String[] args) {
+      System.out.println("5! = " + factorial(5));   // 5! = 120
+      System.out.println("0! = " + factorial(0));   // 0! = 1
+   }
+}</code></pre>
+  <p>How <code>factorial(4)</code> unfolds. Calls go down until the base case, then the answers multiply on the way back up:</p>
+  <pre class="out">factorial(4) = 4 * factorial(3)
+                   = 3 * factorial(2)
+                         = 2 * factorial(1)
+                               = 1 * factorial(0)
+                                     = 1        ← base case
+back up:  1  →  1*1 = 1  →  2*1 = 2  →  3*2 = 6  →  4*6 = 24</pre>
+  <p>Time is <b>O(n)</b> (n calls). Space is <b>O(n)</b> too, because n calls wait on the stack. The rubric: Functionality 6, Readability 2, Efficiency 2. Readability means a consistent coding style and comments on the important lines.</p>
+
+  <h3 id="b-drill">8. Drill: terms, traversals, insertion</h3>
+  <div data-quiz="binary-mcq"></div>
+</section>
+
+<!-- ===================== BST ===================== -->
+<section class="panel" id="p-bst" role="tabpanel" aria-labelledby="t-bst" hidden>
+  <p class="eyebrow">Lesson 10, part 2</p>
+  <h2>Binary Search Tree</h2>
+  <p class="lede">A BST is a binary tree with a rule: <mark>smaller goes left, bigger goes right.</mark> That rule makes searching fast.</p>
+  <div class="chips" data-nav>
+    <button class="chip" data-go="s-learn" type="button">Learn</button>
+    <button class="chip" data-go="s-insert" type="button">Insert and search</button>
+    <button class="chip" data-go="s-cx" type="button">Complexity</button>
+    <button class="chip" data-go="s-code" type="button">Code</button>
+    <button class="chip" data-go="s-trace" type="button">Trace the output</button>
+    <button class="chip" data-go="s-drill" type="button">Drill</button>
+    <button class="chip" data-go="s-post" type="button">Posttest</button>
+  </div>
+
+  <h3 id="s-learn">1. The two properties</h3>
+  <ul>
+    <li><b>Binary tree structure:</b> each node has at most two children, left and right.</li>
+    <li><b>Ordering property:</b> for every node N, <b>everything in its left subtree is less than N</b> and <b>everything in its right subtree is greater than N</b>.</li>
+  </ul>
+  <p>Think of a number-guessing game ("higher or lower?"). Each answer lets you ignore half of what is left. A BST bakes that game into the structure.</p>
+  <div class="note"><b>Remember</b>
+    <p>Because of the ordering property, <b>in-order traversal of a BST is sorted ascending</b>. The smallest key is the leftmost node. The largest is the rightmost.</p>
+  </div>
+  <div class="note beyond"><b>Duplicates</b>
+    <p>The lesson's <code>insertNode</code> only goes left for <code>&lt;</code> and right for <code>&gt;</code>. An equal key does neither, so the tree comes back unchanged. Inserting the same key twice adds nothing.</p>
+  </div>
+
+  <h3 id="s-insert">2. Inserting and searching</h3>
+  <h4>Insert: always lands on a leaf</h4>
+  <p>Start at the root. Compare. Go left if smaller, right if bigger. Keep going until the spot you need is empty, and put the new node there. A new node is <b>always a leaf</b>.</p>
+  <p>The lesson inserts <code>10, 5, 2, 15, 18, 12, 3, 1</code>:</p>
+  <ul>
+    <li>10: tree is empty, so it becomes the root.</li>
+    <li>5 &lt; 10, left is empty. Left child of 10.</li>
+    <li>2 &lt; 10, then 2 &lt; 5, left of 5 is empty. Left child of 5.</li>
+    <li>15 &gt; 10, right is empty. Right child of 10.</li>
+    <li>18 &gt; 10, then 18 &gt; 15. Right child of 15.</li>
+    <li>12 &gt; 10, then 12 &lt; 15. Left child of 15.</li>
+    <li>3 &lt; 10, 3 &lt; 5, 3 &gt; 2. Right child of 2.</li>
+    <li>1 &lt; 10, 1 &lt; 5, 1 &lt; 2. Left child of 2.</li>
+  </ul>
+  <h4>Search: the same walk, without inserting</h4>
+  <p>Equal to the node: found. Smaller: go left. Bigger: go right. Reached null: not in the tree. Lesson example: <code>Find(7)</code> goes 10 → 5 → 6 → 7.</p>
+  <p>Use <b>Insert next</b> to replay the lesson one key at a time, then search for keys. The log shows each comparison.</p>
+  <div data-comp="bst-lab"></div>
+
+  <h3 id="s-cx">3. Time complexity</h3>
+  <p>The cost of insert or search is the number of nodes on the path, which is the <b>height</b> of the tree.</p>
+  <div class="cols">
+    <div class="card"><h4 class="good">Balanced: O(log n)</h4><p>The tree is bushy. Each comparison halves the remaining nodes. 1,000 keys need about 10 comparisons.</p></div>
+    <div class="card"><h4 class="bad">Skewed: O(n)</h4><p>Every node has only one child, so the tree is a chain. 1,000 keys can need 1,000 comparisons. Same as a linked list.</p></div>
+  </div>
+  <div class="note trap"><b>Exam trap</b>
+    <p>Inserting keys that are <b>already sorted</b> (1, 2, 3, 4, 5) makes a skewed tree. The structure does not balance itself. The lab above has a "sorted" preset: try it and watch the height grow.</p>
+  </div>
+  <p>How many comparisons in the worst case? Try your own n:</p>
+  <div data-comp="height-calc"></div>
+  <div class="tw"><table>
+    <tr><th>Operation</th><th>Balanced / average</th><th>Skewed / worst</th></tr>
+    <tr><td>Search</td><td class="big">O(log n)</td><td class="big">O(n)</td></tr>
+    <tr><td>Insert</td><td class="big">O(log n)</td><td class="big">O(n)</td></tr>
+    <tr><td>Traversal</td><td class="big">O(n)</td><td class="big">O(n)</td></tr>
+    <tr><td>Linear search in an array / linked list</td><td class="big">O(n)</td><td class="big">O(n)</td></tr>
+  </table></div>
+
+  <h3 id="s-code">4. Reading the code</h3>
+  <pre><code class="java">// returns the (possibly new) root of this subtree
+public Node insertNode(Node root, int key) {
+   if (root == null) {                       // found the empty spot
+      root = new Node(key);
+      return root;
+   }
+   if (key &lt; root.getKey())
+      root.setLeft(insertNode(root.getLeft(), key));    // smaller: go left
+   else if (key &gt; root.getKey())
+      root.setRight(insertNode(root.getRight(), key));  // bigger: go right
+   return root;                               // equal key: nothing changes
+}
+
+public Node searchNode(Node root, int key) {
+   if (root == null || root.getKey() == key)
+      return root;                            // null = not found, else found
+   if (root.getKey() &gt; key)
+      return searchNode(root.getLeft(), key);
+   return searchNode(root.getRight(), key);
+}</code></pre>
+  <p>Notice <code>root.setLeft(insertNode(...))</code>. The recursive call returns the subtree root, and that gets re-attached on the way back. That is how the new leaf is linked in.</p>
+
+  <h3 id="s-trace">5. Trace the output</h3>
+  <div data-trace="bst"></div>
+
+  <h3 id="s-drill">6. Drill</h3>
+  <div data-quiz="bst-mcq"></div>
+
+  <h3 id="s-post">7. Lesson 10 posttest: True or False</h3>
+  <p>These ten items cover trees, BSTs and the linear structures from earlier lessons.</p>
+  <div data-quiz="bst-tf"></div>
+</section>
+<!-- ===================== GRAPH ===================== -->
+<section class="panel" id="p-graph" role="tabpanel" aria-labelledby="t-graph" hidden>
+  <p class="eyebrow">Lesson 11</p>
+  <h2>Graph</h2>
+  <p class="lede">A graph is <mark>a set of dots (vertices) joined by lines (edges)</mark>. It models relationships: friends, roads, links, dependencies.</p>
+  <div class="chips" data-nav>
+    <button class="chip" data-go="g-learn" type="button">Learn</button>
+    <button class="chip" data-go="g-def" type="button">Defining a graph</button>
+    <button class="chip" data-go="g-special" type="button">Euler, Hamilton, bipartite</button>
+    <button class="chip" data-go="g-cx" type="button">Complexity</button>
+    <button class="chip" data-go="g-lab" type="button">Try it</button>
+    <button class="chip" data-go="g-trace" type="button">Trace the output</button>
+    <button class="chip" data-go="g-drill" type="button">Drill</button>
+    <button class="chip" data-go="g-post" type="button">Posttest</button>
+  </div>
+
+  <h3 id="g-learn">1. The vocabulary</h3>
+  <p>"Graph" here is not a bar chart. It is the dots-and-lines structure from graph theory.</p>
+  <ul class="defs">
+    <li><b>Vertex (node)</b><br>A dot: a person, city, web page.</li>
+    <li><b>Edge</b><br>A line between two vertices. Can be directed (arrow), undirected, or weighted (carries a number).</li>
+    <li><b>Degree</b><br>Number of edges touching a vertex.</li>
+    <li><b>In-degree / out-degree</b><br>Directed graphs only: arrows coming in / going out.</li>
+    <li><b>Path</b><br>A sequence of vertices where each neighbor pair is joined by an edge. Its length is the number of <b>edges</b>.</li>
+    <li><b>Cycle</b><br>A closed path: starts and ends at the same vertex.</li>
+    <li><b>Connected</b><br>A path exists between every pair of vertices. Otherwise disconnected, which splits into connected components.</li>
+    <li><b>Tree</b><br>A graph that is connected and has no cycles.</li>
+  </ul>
+  <div class="tw"><table>
+    <tr><th></th><th>Undirected graph</th><th>Directed graph (digraph)</th></tr>
+    <tr><td>Edge</td><td>plain line, symmetric: A–B means B–A</td><td>arrow, can be one-way: A→B does not imply B→A</td></tr>
+    <tr><td>Edge notation</td><td>unordered pair <code>{1,2}</code> with curly braces</td><td>ordered pair <code>(1,2)</code> with parentheses</td></tr>
+    <tr><td>Degree</td><td>one number per vertex</td><td>in-degree and out-degree</td></tr>
+    <tr><td>Models</td><td>friendships, roads, computer networks</td><td>web links, following, software dependencies, information flow</td></tr>
+  </table></div>
+
+  <h3 id="g-def">2. Defining a graph: G = (V, E)</h3>
+  <p>V is the set of vertices and E is the set of edges.</p>
+  <div class="cols">
+    <div class="card"><h4>Example 1: undirected</h4>
+      <p><code>V = {1,2,3,4}</code><br><code>E = {{1,2},{2,4},{3,4},{4,1}}</code></p>
+      <p>Degrees: 1 → 2, 2 → 2, 3 → 1, 4 → 3. They add up to 8, which is 2 × 4 edges.</p></div>
+    <div class="card"><h4>Example 2: directed</h4>
+      <p><code>V = {1,2,3,4,5}</code><br><code>E = {(1,3),(1,4),(2,3),(2,5),(3,5),(4,5)}</code></p>
+      <p>In-degree of 5 is 3. Out-degree of 1 is 2. Vertex 5 has out-degree 0.</p></div>
+  </div>
+  <div class="note"><b>Remember</b>
+    <p><b>Handshake rule:</b> in an undirected graph, the sum of all degrees equals <b>2 × the number of edges</b>, because every edge is counted at both ends. In a directed graph, total in-degree equals total out-degree equals the number of edges.</p>
+  </div>
+  <p>A tree is a graph, so tree facts apply: <b>a connected graph with n vertices and n − 1 edges is a tree</b> (posttest item 7).</p>
+
+  <h3 id="g-special">3. Euler, Hamilton and bipartite</h3>
+  <div class="cols">
+    <div class="card"><h4>Eulerian circuit</h4><p>A closed loop that uses <b>every edge exactly once</b> and returns to the start.</p><p>Undirected and connected: it exists exactly when <b>every vertex has an even degree</b>.</p><p>Used in route planning, mail delivery and maze or puzzle design.</p></div>
+    <div class="card"><h4>Hamiltonian cycle</h4><p>A closed loop that visits <b>every vertex exactly once</b> and returns to the start.</p><p>There is no simple even-degree test. It is hard to decide in general.</p></div>
+    <div class="card"><h4>Bipartite graph</h4><p>Vertices split into two groups with <b>no edge inside a group</b>. Edges only go between the groups.</p><p>Same as: <b>no odd-length cycle</b>. Models two kinds of things, like students and courses.</p></div>
+  </div>
+  <div class="note"><b>Remember</b>
+    <p><b>E</b>uler = <b>E</b>dges, each once. <b>H</b>amilton = every vertex (think "<b>H</b>ops to every stop"), each once. Both return to the start when they are a circuit or cycle.</p>
+  </div>
+  <div class="note trap"><b>Exam trap</b>
+    <p>A <b>Hamiltonian path</b> visits every vertex once but does <b>not</b> have to return to the start. The version that returns is the Hamiltonian <b>cycle</b>. Posttest item 5 describes a cycle and calls it a path.</p>
+  </div>
+  <div class="note beyond"><b>Beyond the slides</b>
+    <p>An Eulerian <b>path</b> (not closed) exists when there are exactly 0 or 2 vertices of odd degree. The lab below reports this.</p>
+  </div>
+
+  <h3 id="g-cx">4. Time complexity of graph operations</h3>
+  <div class="tw"><table>
+    <tr><th>Operation</th><th>Time</th><th>Plain reason</th></tr>
+    <tr><td>Add vertex</td><td class="big">O(1)</td><td>Just append it.</td></tr>
+    <tr><td>Add edge</td><td class="big">O(1)</td><td>Append to the neighbor list(s).</td></tr>
+    <tr><td>Remove vertex</td><td class="big">O(V + E)</td><td>Remove it <b>and</b> every edge attached to it.</td></tr>
+    <tr><td>Remove edge</td><td class="big">O(V + E)</td><td>As given in the lesson.</td></tr>
+    <tr><td>Search vertex</td><td class="big">O(V)</td><td>Check the vertices one by one.</td></tr>
+    <tr><td>Search edge</td><td class="big">O(E)</td><td>Check the edges one by one.</td></tr>
+    <tr><td>DFS or BFS</td><td class="big">O(V + E)</td><td>Visit each vertex once and look along each edge once.</td></tr>
+  </table></div>
+  <div class="note"><b>Memory hook</b>
+    <p>Adding is cheap. Removing is expensive because cleanup touches edges. Searching costs the size of what you search: vertices are V, edges are E.</p>
+  </div>
+  <div class="note beyond"><b>Why the sample code is not quite O(1) for addEdge</b>
+    <p>The lesson's <code>addEdge</code> first calls <code>findVertex</code> twice, and that scans the vertex list, so that version really costs O(V). On the exam, answer with the lesson's table: add edge is O(1).</p>
+    <p>DFS goes as deep as it can before backing up (uses a stack or recursion). BFS visits level by level using a <b>queue</b>.</p>
+  </div>
+
+  <h3 id="g-code">5. The lesson's program, in one picture</h3>
+  <p>The program stores a <b>list of vertices</b>. Each <code>Vertex</code> holds its <code>data</code> and its own <b>list of neighbors</b>. This is an adjacency list. <code>addEdge(a, b)</code> finds both vertices and adds each to the other's neighbor list, so the graph is <b>undirected</b>.</p>
+  <pre><code class="java">public void addEdge(int data1, int data2) {
+   Vertex v1 = findVertex(data1);
+   Vertex v2 = findVertex(data2);
+   if (v1 != null &amp;&amp; v2 != null) {
+      v1.getNeighbors().add(v2);   // a knows b
+      v2.getNeighbors().add(v1);   // b knows a
+   } else {
+      System.out.println("One or more vertices not found.");
+   }
+}</code></pre>
+  <p>Neighbors appear in the <b>order edges were added</b>. That order is what output-tracing questions test.</p>
+
+  <h3 id="g-lab">6. Try it</h3>
+  <p>Type vertices and edges. The lab computes degrees, connectivity, Euler and tree checks, bipartite status, and BFS/DFS order. Start with a preset.</p>
+  <div data-comp="graph-lab"></div>
+
+  <h3 id="g-trace">7. Trace the output</h3>
+  <div data-trace="graph"></div>
+
+  <h3 id="g-drill">8. Drill</h3>
+  <div data-quiz="graph-mcq"></div>
+
+  <h3 id="g-post">9. Lesson 11 posttest: True or False</h3>
+  <div data-quiz="graph-tf"></div>
+</section>
+
+<!-- ===================== HASH MAP ===================== -->
+<section class="panel" id="p-hash" role="tabpanel" aria-labelledby="t-hash" hidden>
+  <p class="eyebrow">Lesson 12</p>
+  <h2>Hash Maps</h2>
+  <p class="lede">A map stores <mark>key → value pairs</mark>. A hash map uses a formula on the key to jump straight to where the pair lives.</p>
+  <div class="chips" data-nav>
+    <button class="chip" data-go="h-learn" type="button">Learn</button>
+    <button class="chip" data-go="h-collide" type="button">Collisions</button>
+    <button class="chip" data-go="h-lab" type="button">Try it</button>
+    <button class="chip" data-go="h-cx" type="button">Complexity</button>
+    <button class="chip" data-go="h-apps" type="button">Applications</button>
+    <button class="chip" data-go="h-trace" type="button">Trace and compute</button>
+    <button class="chip" data-go="h-post" type="button">Posttest</button>
+  </div>
+
+  <h3 id="h-learn">1. Map and hash map</h3>
+  <ul class="defs">
+    <li><b>Key-value pair</b><br>Each entry links a key to a value, like a word and its definition.</li>
+    <li><b>Unique keys</b><br>Two entries cannot share a key.</li>
+    <li><b>Values may repeat</b><br>Two different keys can hold the same value.</li>
+    <li><b>Fast lookup</b><br>Give the key, get the value back quickly.</li>
+  </ul>
+  <p>Analogy: a coat check. You hand over a coat and get a numbered tag. Later, the number tells the attendant exactly which hook to check, with no searching through every coat. The <b>hash function</b> is the rule that turns the key into the hook number.</p>
+  <p>The lesson's hash function:</p>
+  <pre class="out">hash(key) = key % array_size        (% is the remainder after division)</pre>
+  <p>With an array of size 7, <code>hash(10) = 10 % 7 = 3</code>, so the pair goes to index 3. The index is always between 0 and size − 1.</p>
+  <div class="note"><b>Remember</b>
+    <p>Lookup works by <b>key</b>, never by index. The hash function computes the index for you. Posttest item 10 ("values are accessed by their index") is false.</p>
+  </div>
+
+  <h3 id="h-collide">2. Collisions and linear probing</h3>
+  <p>A <b>collision</b> happens when two different keys hash to the same index. 10, 17 and 24 all give <code>% 7 = 3</code>.</p>
+  <p><b>Linear probing</b> is the lesson's fix: if the slot is taken, try the next one, then the next, until an empty slot appears. At the end of the array, wrap around to index 0.</p>
+  <p>The lesson's sequence, array size 7:</p>
+  <div class="tw"><table>
+    <tr><th>Operation</th><th>Hash</th><th>What happens</th><th>Placed at</th></tr>
+    <tr><td>Insert (10, A)</td><td><code>10 % 7 = 3</code></td><td>Slot 3 is empty.</td><td class="big">3</td></tr>
+    <tr><td>Insert (17, B)</td><td><code>17 % 7 = 3</code></td><td>Collision with 10. Try 4: empty.</td><td class="big">4</td></tr>
+    <tr><td>Insert (24, C)</td><td><code>24 % 7 = 3</code></td><td>3 taken, 4 taken. Try 5: empty.</td><td class="big">5</td></tr>
+    <tr><td>Insert (15, D)</td><td><code>15 % 7 = 1</code></td><td>Slot 1 is empty.</td><td class="big">1</td></tr>
+  </table></div>
+  <h4>Searching follows the same path</h4>
+  <ul>
+    <li><b>Search 15:</b> hash to index 1, the key there is 15. Found immediately. Return "D".</li>
+    <li><b>Search 24:</b> hash to index 3, which holds 10, not 24. Probe 4 (holds 17), then 5 (holds 24). Found, return "C".</li>
+  </ul>
+  <p>Searching stops when:</p>
+  <ul>
+    <li>the key is found: success;</li>
+    <li>an <b>empty slot</b> is reached: the key is not in the map;</li>
+    <li>the probing has looped all the way back to the start: the key is not in the map.</li>
+  </ul>
+  <div class="note"><b>Why an empty slot means "not here"</b>
+    <p>When the key was inserted, it took the first empty slot along its probe path. So if the search finds an empty slot before the key, the key was never inserted.</p>
+  </div>
+  <div class="note beyond"><b>Beyond the slides, but a favorite follow-up</b>
+    <p>Deleting an entry cannot just empty its slot. That would create a hole that stops later searches too early, so real implementations leave a "deleted" marker. Also, when the table gets too full (a high <b>load factor</b>, the entries divided by the table size), collisions pile up, so real hash maps grow and rehash.</p>
+  </div>
+
+  <h3 id="h-lab">3. Try it</h3>
+  <p>Rebuild the lesson: size 7, insert keys 10, 17, 24, 15, then search 24 and 31. Then change the size to 5 and insert <code>12 7 22 4 9</code> to see wrap-around.</p>
+  <div data-comp="hash-lab"></div>
+
+  <h3 id="h-cx">4. Time complexity</h3>
+  <div class="tw"><table>
+    <tr><th>Case</th><th>Insert / search / delete</th><th>Why</th></tr>
+    <tr><td>Average</td><td class="big">O(1)</td><td>Hash gives the slot directly. Collisions are rare and short.</td></tr>
+    <tr><td>Worst</td><td class="big">O(n)</td><td>Every key collides, so probing walks across most of the table.</td></tr>
+  </table></div>
+  <div class="note trap"><b>Exam trap</b>
+    <p>Hash map search is O(1) on average, <b>not O(log n)</b>. O(log n) is the balanced BST. A hash map also does <b>not</b> keep keys in sorted order.</p>
+  </div>
+  <p><b>Hash map vs BST:</b> if you need fast lookup and do not care about order, use a hash map. If you need the keys in sorted order, use a BST (its in-order traversal).</p>
+
+  <h3 id="h-apps">5. Applications</h3>
+  <div class="cols">
+    <div class="card"><h4>Caching and memoization</h4><p>Store results of expensive computations so recursion and dynamic programming do not repeat work.</p></div>
+    <div class="card"><h4>Lookup tables</h4><p>Dictionaries: look up a word, find its definition.</p></div>
+    <div class="card"><h4>Frequency counting</h4><p>Count how often each word appears. Also grouping data, such as students by first initial.</p></div>
+    <div class="card"><h4>Indexing</h4><p>Databases and search engines map IDs or keywords to entries. A set can be built from just the keys.</p></div>
+    <div class="card"><h4>Compilers</h4><p>Symbol tables map variable names to types, memory locations or values.</p></div>
+    <div class="card"><h4>Networks and login</h4><p>Routing tables map IP addresses to routes. Authentication maps usernames or session tokens to accounts. Games track scores and inventory.</p></div>
+  </div>
+
+  <h3 id="h-trace">6. Trace and compute</h3>
+  <p>Do the arithmetic yourself, then reveal.</p>
+  <div data-trace="hash"></div>
+  <div data-quiz="hash-mcq"></div>
+
+  <h3 id="h-post">7. Lesson 12 posttest: True or False</h3>
+  <div data-quiz="hash-tf"></div>
+</section>
+</main>
+
+<footer class="end">Built from the PCB DSA 1 Finals Workbook (Lessons 9 to 12). Where a posttest item is ambiguous, the explanation says so. When in doubt, ask your instructor what their key says.</footer>
+</div>
+<script>
+/* ============ pure logic (tested in node) ============ */
+var _nid = 0;
+function mkNode(key){ return {key:key, left:null, right:null, id:++_nid}; }
+
+/* BST insert: returns {root, node, path:[{node,dir}], dup} */
+function bstInsert(root, key){
+  var path = [];
+  if(!root){ var n0 = mkNode(key); return {root:n0, node:n0, path:path, dup:false}; }
+  var cur = root;
+  while(true){
+    if(key === cur.key){ path.push({node:cur, dir:'dup'}); return {root:root, node:cur, path:path, dup:true}; }
+    var dir = key < cur.key ? 'left' : 'right';
+    path.push({node:cur, dir:dir});
+    if(!cur[dir]){ var n = mkNode(key); cur[dir] = n; return {root:root, node:n, path:path, dup:false}; }
+    cur = cur[dir];
+  }
+}
+/* BST search: returns {found, path:[nodes visited], steps:[text]} */
+function bstSearch(root, key){
+  var path = [], steps = [], cur = root;
+  while(cur){
+    path.push(cur);
+    if(key === cur.key){ steps.push(key + ' = ' + cur.key + ' → found'); return {found:true, path:path, steps:steps}; }
+    if(key < cur.key){ steps.push(key + ' < ' + cur.key + ' → go left'); cur = cur.left; }
+    else { steps.push(key + ' > ' + cur.key + ' → go right'); cur = cur.right; }
+  }
+  steps.push('reached null → ' + key + ' is not in the tree');
+  return {found:false, path:path, steps:steps};
+}
+/* Level-order insert (what Lesson 10's BinaryTree.insert does) */
+function levelInsert(root, key){
+  var log = [], n = mkNode(key);
+  if(!root){ log.push('Tree is empty → ' + key + ' becomes the root.'); return {root:n, node:n, log:log}; }
+  var q = [root];
+  log.push('queue starts as [' + root.key + ']');
+  while(q.length){
+    var cur = q.shift();
+    log.push('pop ' + cur.key + ' from the queue');
+    if(!cur.left){ cur.left = n; log.push(cur.key + ' has no left child → insert ' + key + ' as its LEFT child. Stop.'); return {root:root, node:n, log:log}; }
+    q.push(cur.left); log.push(cur.key + ' already has left child ' + cur.left.key + ' → enqueue it');
+    if(!cur.right){ cur.right = n; log.push(cur.key + ' has no right child → insert ' + key + ' as its RIGHT child. Stop.'); return {root:root, node:n, log:log}; }
+    q.push(cur.right); log.push(cur.key + ' already has right child ' + cur.right.key + ' → enqueue it');
+  }
+  return {root:root, node:n, log:log};
+}
+function buildBST(keys){ var r = null; keys.forEach(function(k){ r = bstInsert(r, k).root; }); return r; }
+function buildLevel(keys){ var r = null; keys.forEach(function(k){ r = levelInsert(r, k).root; }); return r; }
+function preOrder(n, out){ out = out || []; if(n){ out.push(n); preOrder(n.left,out); preOrder(n.right,out);} return out; }
+function inOrder(n, out){ out = out || []; if(n){ inOrder(n.left,out); out.push(n); inOrder(n.right,out);} return out; }
+function postOrder(n, out){ out = out || []; if(n){ postOrder(n.left,out); postOrder(n.right,out); out.push(n);} return out; }
+function treeHeight(n){ return n ? 1 + Math.max(treeHeight(n.left), treeHeight(n.right)) : -1; }
+function treeCount(n){ return n ? 1 + treeCount(n.left) + treeCount(n.right) : 0; }
+function keysOf(nodes){ return nodes.map(function(n){ return n.key; }); }
+/* build a tree from a nested literal: ['A', left, right] */
+function fromLit(t){ if(!t) return null; var n = mkNode(t[0]); n.left = fromLit(t[1]); n.right = fromLit(t[2]); return n; }
+
+/* ---------- hash map with linear probing ---------- */
+function hashPut(table, size, key, val){
+  var start = ((key % size) + size) % size, probes = [];
+  for(var i = 0; i < size; i++){
+    var idx = (start + i) % size; probes.push(idx);
+    var c = table[idx];
+    if(c === null){ table[idx] = {key:key, val:val}; return {ok:true, idx:idx, start:start, probes:probes, updated:false}; }
+    if(c.key === key){ c.val = val; return {ok:true, idx:idx, start:start, probes:probes, updated:true}; }
+  }
+  return {ok:false, start:start, probes:probes};
+}
+function hashGet(table, size, key){
+  var start = ((key % size) + size) % size, probes = [];
+  for(var i = 0; i < size; i++){
+    var idx = (start + i) % size; probes.push(idx);
+    var c = table[idx];
+    if(c === null) return {found:false, reason:'empty', start:start, probes:probes};
+    if(c.key === key) return {found:true, idx:idx, val:c.val, start:start, probes:probes};
+  }
+  return {found:false, reason:'loop', start:start, probes:probes};
+}
+
+/* ---------- graph analysis ---------- */
+function analyzeGraph(verts, edgePairs, directed){
+  var adj = {}, indeg = {}, outdeg = {}, seen = {}, edges = [];
+  verts.forEach(function(v){ adj[v] = []; indeg[v] = 0; outdeg[v] = 0; });
+  edgePairs.forEach(function(e){
+    var a = e[0], b = e[1];
+    if(a === b) return;
+    var k = directed ? a + '>' + b : (a < b ? a + '-' + b : b + '-' + a);
+    if(seen[k]) return; seen[k] = 1;
+    edges.push([a,b]);
+    adj[a].push(b); outdeg[a]++; indeg[b]++;
+    if(!directed){ adj[b].push(a); outdeg[b]++; indeg[a]++; }
+  });
+  /* undirected view */
+  var und = {}; verts.forEach(function(v){ und[v] = []; });
+  edges.forEach(function(e){ und[e[0]].push(e[1]); und[e[1]].push(e[0]); });
+  var comp = {}, ncomp = 0;
+  verts.forEach(function(v){
+    if(comp[v] !== undefined) return;
+    ncomp++; var st = [v]; comp[v] = ncomp;
+    while(st.length){ var x = st.pop(); und[x].forEach(function(y){ if(comp[y] === undefined){ comp[y] = ncomp; st.push(y);} }); }
+  });
+  var degree = {}; verts.forEach(function(v){ degree[v] = directed ? indeg[v] + outdeg[v] : adj[v].length; });
+  var odd = verts.filter(function(v){ return und[v].length % 2 === 1; });
+  var withEdges = verts.filter(function(v){ return und[v].length > 0; });
+  var compsWithEdges = {}; withEdges.forEach(function(v){ compsWithEdges[comp[v]] = 1; });
+  var edgeConnected = Object.keys(compsWithEdges).length <= 1;
+  var V = verts.length, E = edges.length;
+  var color = {}, bip = true;
+  verts.forEach(function(s){
+    if(color[s] !== undefined) return; color[s] = 0; var q = [s];
+    while(q.length){ var x = q.shift(); und[x].forEach(function(y){ if(color[y] === undefined){ color[y] = 1 - color[x]; q.push(y);} else if(color[y] === color[x]) bip = false; }); }
+  });
+  function bfs(s){ var o = [s], vis = {}; vis[s] = 1; var q = [s]; while(q.length){ var x = q.shift(); adj[x].forEach(function(y){ if(!vis[y]){ vis[y] = 1; o.push(y); q.push(y);} }); } return o; }
+  function dfs(s){ var o = [], vis = {}; (function go(x){ vis[x] = 1; o.push(x); adj[x].forEach(function(y){ if(!vis[y]) go(y); }); })(s); return o; }
+  return {
+    V:V, E:E, adj:adj, indeg:indeg, outdeg:outdeg, degree:degree, edges:edges,
+    components:ncomp, connected: V > 0 && ncomp === 1,
+    hasCycle: directed ? null : (E > V - ncomp),
+    isTree: !directed && V > 0 && ncomp === 1 && E === V - 1,
+    odd:odd, eulerCircuit: !directed && E > 0 && edgeConnected && odd.length === 0,
+    eulerPath: !directed && E > 0 && edgeConnected && (odd.length === 0 || odd.length === 2),
+    bipartite:bip, color:color,
+    bfs: V ? bfs(verts[0]) : [], dfs: V ? dfs(verts[0]) : [],
+    sumDegrees: verts.reduce(function(s,v){ return s + degree[v]; }, 0)
+  };
+}
+if(typeof module !== 'undefined') module.exports = {mkNode,bstInsert,bstSearch,levelInsert,buildBST,buildLevel,preOrder,inOrder,postOrder,treeHeight,treeCount,keysOf,fromLit,hashPut,hashGet,analyzeGraph};
+/* ============ UI helpers ============ */
+function $(s, r){ return (r || document).querySelector(s); }
+function $$(s, r){ return Array.prototype.slice.call((r || document).querySelectorAll(s)); }
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+function h(tag, attrs, html){
+  var e = document.createElement(tag);
+  if(attrs) for(var k in attrs){ if(k === 'class') e.className = attrs[k]; else e.setAttribute(k, attrs[k]); }
+  if(html !== undefined && html !== null) e.innerHTML = html;
+  return e;
+}
+var KW = 'public|private|protected|class|static|void|int|long|new|if|else|return|null|while|for|break|import|this|boolean|throws|true|false|final|throw|String|Integer|Node|Queue|Map|HashMap';
+var HL_RE = new RegExp('(\\/\\/[^\\n]*|\\/\\*[\\s\\S]*?\\*\\/)|("(?:[^"\\\\\\n]|\\\\.)*")|\\b(' + KW + ')\\b|\\b(\\d+)\\b', 'g');
+function hlJava(src){
+  return esc(src).replace(HL_RE, function(m, com, str, kw, num){
+    if(com) return '<span class="c-com">' + m + '</span>';
+    if(str) return '<span class="c-str">' + m + '</span>';
+    if(kw) return '<span class="c-kw">' + m + '</span>';
+    return '<span class="c-num">' + m + '</span>';
+  });
+}
+function highlightAll(root){ $$('code.java', root).forEach(function(c){ if(!c.getAttribute('data-hl')){ c.innerHTML = hlJava(c.textContent); c.setAttribute('data-hl','1'); } }); }
+function parseNums(str, max){
+  var out = (str || '').split(/[\s,;]+/).filter(function(x){ return x !== ''; }).map(Number).filter(function(x){ return isFinite(x) && Math.floor(x) === x; });
+  return max ? out.slice(0, max) : out;
+}
+var _uid = 0;
+
+/* ============ tree drawing ============ */
+function layoutTree(root){
+  var nodes = [], idx = 0;
+  (function go(n, d){ if(!n) return; go(n.left, d + 1); n._x = idx++; n._y = d; nodes.push(n); go(n.right, d + 1); })(root, 0);
+  return nodes;
+}
+function drawTree(host, root, opts){
+  opts = opts || {};
+  host.innerHTML = '';
+  var box = h('div', {'class':'svgbox'});
+  host.appendChild(box);
+  if(!root){ box.innerHTML = '<p class="qempty" style="padding:10px 14px;margin:0">Empty tree. Insert a key to begin.</p>'; return {nodes:[], el:function(){ return null; }}; }
+  var nodes = layoutTree(root), dx = opts.dx || 46, dy = opts.dy || 56, r = 18, padX = 26, padY = 24, maxX = 0, maxY = 0;
+  nodes.forEach(function(n){ maxX = Math.max(maxX, n._x); maxY = Math.max(maxY, n._y); });
+  var extra = opts.levels ? 56 : 0;
+  var W = maxX * dx + padX * 2 + extra, Hh = maxY * dy + padY * 2;
+  var s = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + Hh + '" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="' + esc(opts.label || 'Tree diagram') + '">';
+  nodes.forEach(function(n){
+    [n.left, n.right].forEach(function(c){
+      if(c) s += '<line class="te" x1="' + (padX + n._x * dx) + '" y1="' + (padY + n._y * dy) + '" x2="' + (padX + c._x * dx) + '" y2="' + (padY + c._y * dy) + '"/>';
+    });
+  });
+  if(opts.levels){ for(var d = 0; d <= maxY; d++) s += '<text class="lv" x="' + (padX + maxX * dx + r + 10) + '" y="' + (padY + d * dy + 4) + '">Level ' + d + '</text>'; }
+  nodes.forEach(function(n){
+    s += '<g class="tn" data-id="' + n.id + '" transform="translate(' + (padX + n._x * dx) + ',' + (padY + n._y * dy) + ')"><circle r="' + r + '"/><text>' + esc(n.key) + '</text></g>';
+  });
+  s += '</svg>';
+  box.innerHTML = s;
+  var map = {};
+  $$('.tn', box).forEach(function(g){ map[g.getAttribute('data-id')] = g; });
+  box.setAttribute('data-cx', String(padX + root._x * dx));
+  centerBoxes(host);
+  return {nodes:nodes, el:function(n){ return map[n.id]; }, clear:function(){ $$('.tn', box).forEach(function(g){ g.classList.remove('hot'); g.classList.remove('done'); }); }};
+}
+function centerBoxes(scope){
+  $$('.svgbox[data-cx]', scope || document).forEach(function(b){
+    if(b.clientWidth > 0 && b.scrollWidth > b.clientWidth + 2){ b.scrollLeft = Math.max(0, parseFloat(b.getAttribute('data-cx')) - b.clientWidth / 2); }
+  });
+}
+function setClass(handle, nodes, cls){ nodes.forEach(function(n){ var e = handle.el(n); if(e) e.classList.add(cls); }); }
+function seqHtml(keys){ return keys.length ? keys.map(function(k){ return '<span class="k">' + esc(k) + '</span>'; }).join(' ') : '<span style="color:var(--muted)">(none)</span>'; }
+
+/* ============ quiz engine ============ */
+function renderQuiz(host, items){
+  var score = 0, done = 0;
+  var scoreEl;
+  function upd(){ scoreEl.textContent = 'Answered ' + done + ' of ' + items.length + '  ·  Correct ' + score; }
+  function build(){
+    host.innerHTML = ''; score = 0; done = 0;
+    var head = h('div', {'class':'quiz-head'});
+    scoreEl = h('span', {'class':'score', 'aria-live':'polite'});
+    var rb = h('button', {'class':'btn ghost sm', type:'button'}, 'Reset');
+    rb.addEventListener('click', build);
+    head.appendChild(scoreEl); head.appendChild(rb); host.appendChild(head);
+    upd();
+    items.forEach(function(it, i){ host.appendChild(buildItem(it, i)); });
+  }
+  function explain(box, ok, it){
+    var w = h('div', {'class':'why ' + (ok ? 'ok' : 'no')});
+    w.innerHTML = '<span class="v">' + (ok ? 'Correct' : 'Not quite') + '</span><p>' + it.why + '</p>' + (it.flag ? '<div class="flag"><b>Heads up:</b> ' + it.flag + '</div>' : '');
+    box.appendChild(w);
+    done++; if(ok) score++; upd();
+  }
+  function buildItem(it, i){
+    var box = h('div', {'class':'qi'});
+    box.appendChild(h('p', {'class':'qt'}, '<span class="qn">' + (i + 1) + '.</span>' + it.q));
+    var opts;
+    if(it.t === 'tf'){
+      opts = h('div', {'class':'opts tf'});
+      ['True', 'False'].forEach(function(lab, k){
+        var b = h('button', {'class':'opt', type:'button'}, lab);
+        b.addEventListener('click', function(){
+          var correctIdx = it.a ? 0 : 1, bs = $$('.opt', opts);
+          bs.forEach(function(x, j){ x.disabled = true; if(j === correctIdx) x.classList.add('right'); });
+          if(k !== correctIdx) b.classList.add('wrong');
+          explain(box, k === correctIdx, it);
+        });
+        opts.appendChild(b);
+      });
+    } else if(it.t === 'mcq'){
+      opts = h('div', {'class':'opts'});
+      it.o.forEach(function(txt, k){
+        var b = h('button', {'class':'opt', type:'button'}, '<span class="l">' + 'ABCDEF'.charAt(k) + '</span><span>' + txt + '</span>');
+        b.addEventListener('click', function(){
+          $$('.opt', opts).forEach(function(x, j){ x.disabled = true; if(j === it.a) x.classList.add('right'); });
+          if(k !== it.a) b.classList.add('wrong');
+          explain(box, k === it.a, it);
+        });
+        opts.appendChild(b);
+      });
+    } else {
+      opts = h('div', {'class':'opts'});
+      var picked = {};
+      it.o.forEach(function(txt, k){
+        var b = h('button', {'class':'opt', type:'button', 'aria-pressed':'false'}, '<span class="l">' + 'abcdef'.charAt(k) + '.</span><span>' + txt + '</span>');
+        b.addEventListener('click', function(){ picked[k] = !picked[k]; b.classList.toggle('sel', !!picked[k]); b.setAttribute('aria-pressed', picked[k] ? 'true' : 'false'); });
+        opts.appendChild(b);
+      });
+      var chk = h('button', {'class':'btn sm', type:'button', style:'margin-top:10px;align-self:flex-start'}, 'Check answer');
+      chk.addEventListener('click', function(){
+        var ok = true;
+        $$('.opt', opts).forEach(function(x, j){
+          var want = it.a.indexOf(j) >= 0, got = !!picked[j];
+          if(want !== got) ok = false;
+          x.disabled = true; x.classList.remove('sel');
+          if(want) x.classList.add('right'); else if(got) x.classList.add('wrong');
+        });
+        chk.disabled = true;
+        explain(box, ok, it);
+      });
+      opts.appendChild(chk);
+    }
+    box.appendChild(opts);
+    return box;
+  }
+  build();
+}
+
+/* ============ trace engine ============ */
+function renderTraces(host, items){
+  items.forEach(function(it, i){
+    var box = h('div', {'class':'trace'});
+    box.appendChild(h('h4', null, esc(it.title)));
+    if(it.intro) box.appendChild(h('p', null, it.intro));
+    var pre = h('pre'), code = h('code', {'class':'java'});
+    code.textContent = it.code; pre.appendChild(code); box.appendChild(pre);
+    if(it.tree){
+      var th = h('div'); box.appendChild(th);
+      var root = it.tree.mode === 'level' ? buildLevel(it.tree.keys) : buildBST(it.tree.keys);
+      drawTree(th, root, {label:'Tree for this question'});
+    }
+    box.appendChild(h('p', null, '<b>' + it.q + '</b>'));
+    var btn = h('button', {'class':'btn sm', type:'button'}, 'Reveal the answer');
+    var ans = h('div', {'class':'ans'}); ans.hidden = true;
+    if(it.out !== undefined){ ans.appendChild(h('h5', null, it.outLabel || 'Output')); var po = h('pre', {'class':'out'}); po.textContent = it.out; ans.appendChild(po); }
+    if(it.steps){ ans.appendChild(h('h5', null, 'Step by step')); ans.appendChild(h('ol', null, it.steps.map(function(s){ return '<li>' + s + '</li>'; }).join(''))); }
+    if(it.note) ans.appendChild(h('div', {'class':'note trap'}, '<b>Watch out</b><p>' + it.note + '</p>'));
+    btn.addEventListener('click', function(){ ans.hidden = !ans.hidden; btn.textContent = ans.hidden ? 'Reveal the answer' : 'Hide the answer'; });
+    box.appendChild(btn); box.appendChild(ans);
+    host.appendChild(box);
+  });
+  highlightAll(host);
+}
+/* ============ QUEUE LAB ============ */
+function queueLab(host){
+  var q = [];
+  host.innerHTML = '<div class="lab"><p class="lab-title">Queue lab (mirrors the lesson\'s Queue.java)</p>' +
+    '<div class="row"><label class="f">Value<input type="text" inputmode="numeric" class="v" value="5" id="ql-v"></label>' +
+    '<button class="btn e" type="button">enqueue</button><button class="btn d" type="button">dequeue</button><button class="btn ghost p" type="button">peek</button></div>' +
+    '<div class="qrow" aria-live="polite"></div>' +
+    '<div class="row"><button class="btn ghost sm run" type="button">Run the lesson\'s Main program</button><button class="btn ghost sm rs" type="button">Reset</button></div>' +
+    '<div class="readout"></div><div class="log" aria-live="polite"></div></div>';
+  var row = $('.qrow', host), ro = $('.readout', host), log = $('.log', host), inp = $('.v', host);
+  function say(t){ log.appendChild(h('div', null, esc(t))); log.scrollTop = log.scrollHeight; }
+  function draw(){
+    if(!q.length){ row.innerHTML = '<div class="qempty">head = null, tail = null &nbsp;(empty queue)</div>'; }
+    else {
+      row.innerHTML = q.map(function(v, i){
+        var tag = '';
+        if(q.length === 1) tag = '<span class="tag">HEAD</span><span class="tag b">TAIL</span>';
+        else if(i === 0) tag = '<span class="tag">HEAD</span>';
+        else if(i === q.length - 1) tag = '<span class="tag b">TAIL</span>';
+        return '<div class="qcell">' + esc(v) + tag + '</div>';
+      }).join('');
+    }
+    ro.innerHTML = 'size <b>' + q.length + '</b> &nbsp; front <b>' + (q.length ? esc(q[0]) : 'null') + '</b> &nbsp; back <b>' + (q.length ? esc(q[q.length - 1]) : 'null') + '</b>';
+  }
+  function enq(v){ q.push(v); say(v + ' has been added to the queue.'); }
+  function deq(){ if(!q.length){ say('Queue Underflow: No elements to dequeue.'); return null; } var v = q.shift(); say('Dequeued: ' + v); return v; }
+  function peek(){ if(!q.length){ say('No elements to display.'); return null; } say('Front of the queue: ' + q[0]); return q[0]; }
+  function val(){ var n = parseInt(inp.value, 10); if(isNaN(n)){ say('Type a whole number first.'); return null; } return n; }
+  $('.e', host).addEventListener('click', function(){ var n = val(); if(n !== null){ enq(n); draw(); } });
+  $('.d', host).addEventListener('click', function(){ deq(); draw(); });
+  $('.p', host).addEventListener('click', function(){ peek(); });
+  $('.rs', host).addEventListener('click', function(){ q = []; log.innerHTML = ''; draw(); });
+  $('.run', host).addEventListener('click', function(){
+    q = []; log.innerHTML = '';
+    enq(5); deq(); deq(); enq(7); enq(3); enq(9); deq(); peek(); draw();
+  });
+  $('.run', host).click();
+}
+
+/* ============ TERMS VIZ ============ */
+function termViz(host){
+  var root = fromLit(['A', ['B', ['D', ['H'], ['I']], ['E', ['J']]], ['C', ['F'], ['G']]]);
+  var all = preOrder(root), by = {}; all.forEach(function(n){ by[n.key] = n; });
+  function pick(){ return Array.prototype.slice.call(arguments).map(function(k){ return by[k]; }); }
+  var terms = [
+    {n:'Root', s:pick('A'), t:'<b>Root: A.</b> The topmost node, at level 0. Every other node descends from it.'},
+    {n:'Parent', s:pick('A','B','C','D','E'), t:'<b>Parents: A, B, C, D, E.</b> Each has at least one child. F, G, H, I, J are not parents.'},
+    {n:'Child', s:pick('B','C','D','E','F','G','H','I','J'), t:'<b>Every node except the root is a child</b> of exactly one parent. D is the child of B and the parent of H and I.'},
+    {n:'Siblings', s:pick('H','I'), t:'<b>H and I are siblings:</b> both are children of D. So are B and C, D and E, F and G. J has no sibling.'},
+    {n:'Leaf', s:pick('H','I','J','F','G'), t:'<b>Leaves: H, I, J, F, G.</b> No children, so they are terminal nodes. This tree has 5 leaves.'},
+    {n:'Subtree', s:pick('D','H','I'), t:'<b>The subtree rooted at D</b> is D, H and I: a node plus all its descendants.'},
+    {n:'Level 2', s:pick('D','E','F','G'), t:'<b>Level 2: D, E, F, G.</b> Level = number of edges from the root. A → B → D is 2 edges.'},
+    {n:'Path', s:pick('A','B','D','I'), t:'<b>Path A → B → D → I</b> follows 3 edges, so I is at level 3. A path is the sequence of nodes along edges.'}
+  ];
+  host.innerHTML = '<div class="lab"><p class="lab-title">Vocabulary on one tree</p><div class="chips" style="margin:0 0 8px"></div><div class="tv"></div><p class="tt" style="margin:8px 0 0;min-height:3.2em"></p></div>';
+  var chips = $('.chips', host), tv = $('.tv', host), tt = $('.tt', host), handle = drawTree(tv, root, {levels:true, label:'Tree with root A'});
+  function sel(i){
+    handle.clear(); setClass(handle, terms[i].s, 'hot'); tt.innerHTML = terms[i].t;
+    $$('.chip', chips).forEach(function(c, j){ c.setAttribute('aria-pressed', j === i ? 'true' : 'false'); });
+  }
+  terms.forEach(function(t, i){ var b = h('button', {'class':'chip', type:'button', 'aria-pressed':'false'}, t.n); b.addEventListener('click', function(){ sel(i); }); chips.appendChild(b); });
+  sel(0);
+}
+
+/* ============ TRAVERSAL VIZ ============ */
+function travViz(host){
+  var presets = {
+    a: {name:'A to G (lesson)', make:function(){ return fromLit(['A', ['B', ['D'], ['E']], ['C', ['F'], ['G']]]); }},
+    b: {name:'25-tree (lesson)', make:function(){ return fromLit([25, [15, [10, [4], [12]], [22, [18], [24]]], [50, [35, [31], [44]], [70, [66], [90]]]]); }},
+    c: {name:'10 11 7 9 15 8 13 12 (lesson program)', make:function(){ return buildLevel([10, 11, 7, 9, 15, 8, 13, 12]); }}
+  };
+  var cur = 'a', order = 'pre', step = 0, root, handle, seq, timer = null;
+  host.innerHTML = '<div class="lab"><p class="lab-title">Traversal visualizer</p>' +
+    '<div class="row"><label class="f">Tree<select class="ts"></select></label></div>' +
+    '<div class="chips" style="margin:6px 0"><button class="chip" data-o="pre" type="button">Pre-order</button><button class="chip" data-o="in" type="button">In-order</button><button class="chip" data-o="post" type="button">Post-order</button></div>' +
+    '<div class="tv"></div>' +
+    '<div class="row"><button class="btn st" type="button">Step</button><button class="btn ghost pl" type="button">Play</button><button class="btn ghost rs" type="button">Reset</button><span class="pat" style="font:600 .84rem var(--f-mono);color:var(--muted)"></span></div>' +
+    '<div class="seq"></div><p class="msg" style="margin:4px 0 0;font-size:.92rem"></p></div>';
+  var sel = $('.ts', host), tv = $('.tv', host), seqEl = $('.seq', host), msg = $('.msg', host), pat = $('.pat', host);
+  Object.keys(presets).forEach(function(k){ sel.appendChild(h('option', {value:k}, presets[k].name)); });
+  var PAT = {pre:'Root → Left → Right', 'in':'Left → Root → Right', post:'Left → Right → Root'};
+  function seqNodes(){ return order === 'pre' ? preOrder(root) : order === 'in' ? inOrder(root) : postOrder(root); }
+  function stop(){ if(timer){ clearInterval(timer); timer = null; $('.pl', host).textContent = 'Play'; } }
+  function paint(){
+    var ns = seqNodes();
+    handle.clear();
+    ns.forEach(function(n, i){ var e = handle.el(n); if(i < step - 1) e.classList.add('done'); else if(i === step - 1) e.classList.add('hot'); });
+    seqEl.innerHTML = seqHtml(keysOf(ns.slice(0, step)));
+    pat.textContent = PAT[order];
+    msg.textContent = step === 0 ? 'Press Step. The first node visited will light up.' : step < ns.length ? 'Visited ' + step + ' of ' + ns.length + ': ' + ns[step - 1].key : 'Done. ' + ns.length + ' nodes visited, each exactly once.';
+    $('.st', host).disabled = step >= ns.length;
+  }
+  function load(){ stop(); root = presets[cur].make(); handle = drawTree(tv, root, {label:'Binary tree for traversal practice'}); step = 0; paint(); }
+  function next(){ var n = seqNodes().length; if(step < n){ step++; paint(); } if(step >= n) stop(); }
+  sel.addEventListener('change', function(){ cur = sel.value; load(); });
+  $$('.chip', host).forEach(function(c){ c.addEventListener('click', function(){ order = c.getAttribute('data-o'); $$('.chip', host).forEach(function(x){ x.setAttribute('aria-pressed', x === c ? 'true' : 'false'); }); stop(); step = 0; paint(); }); });
+  $('.st', host).addEventListener('click', function(){ stop(); next(); });
+  $('.rs', host).addEventListener('click', function(){ stop(); step = 0; paint(); });
+  $('.pl', host).addEventListener('click', function(){
+    if(timer){ stop(); return; }
+    if(step >= seqNodes().length) step = 0;
+    $('.pl', host).textContent = 'Pause'; next();
+    timer = setInterval(next, 750);
+  });
+  $$('.chip', host)[0].setAttribute('aria-pressed', 'true');
+  load();
+}
+
+/* ============ LEVEL-ORDER LAB ============ */
+function levelLab(host){
+  var root = null, lastLog = [];
+  host.innerHTML = '<div class="lab"><p class="lab-title">Level-order insert lab (Lesson 10 BinaryTree.insert)</p>' +
+    '<label class="f">Keys, in insertion order (the first becomes the root)<input type="text" class="wide ks" id="ll-k" value="10 11 7 9 15 8 13 12"></label>' +
+    '<div class="row"><button class="btn bd" type="button">Build tree</button><button class="btn ghost rs" type="button">Clear</button>' +
+    '<label class="f" style="flex-direction:row;align-items:center;gap:6px">Add one key<input type="text" inputmode="numeric" class="one" id="ll-1" value="20" style="width:5em"></label><button class="btn ghost ad" type="button">Add</button></div>' +
+    '<div class="tv"></div><div class="readout"></div>' +
+    '<div class="seq-pre"></div><div class="seq-in"></div><div class="seq-post"></div>' +
+    '<p class="lab-title" style="margin-top:12px">How the last key was placed</p><div class="log"></div></div>';
+  var tv = $('.tv', host), log = $('.log', host), ro = $('.readout', host);
+  function draw(){
+    var handle = drawTree(tv, root, {label:'Binary tree built by level-order insertion'});
+    if(lastLog.length){ var last = lastLog.node; if(last && handle.el(last)) handle.el(last).classList.add('hot'); }
+    ro.innerHTML = 'nodes <b>' + treeCount(root) + '</b> &nbsp; height <b>' + treeHeight(root) + '</b> edges';
+    $('.seq-pre', host).innerHTML = '<small>Pre-order&nbsp;&nbsp;</small>' + seqHtml(keysOf(preOrder(root)));
+    $('.seq-in', host).innerHTML = '<small>In-order&nbsp;&nbsp;&nbsp;&nbsp;</small>' + seqHtml(keysOf(inOrder(root)));
+    $('.seq-post', host).innerHTML = '<small>Post-order&nbsp;</small>' + seqHtml(keysOf(postOrder(root)));
+    $$('.seq-pre,.seq-in,.seq-post', host).forEach(function(e){ e.className = e.className.split(' ')[0] + ' seq'; });
+    log.innerHTML = lastLog.length ? lastLog.map(function(l){ return '<div>' + esc(l) + '</div>'; }).join('') : '<div>Insert a key to see the queue steps.</div>';
+  }
+  function add(k){ var r = levelInsert(root, k); root = r.root; lastLog = r.log.slice(); lastLog.node = r.node; }
+  $('.bd', host).addEventListener('click', function(){ root = null; lastLog = []; parseNums($('.ks', host).value, 31).forEach(add); draw(); });
+  $('.rs', host).addEventListener('click', function(){ root = null; lastLog = []; draw(); });
+  $('.ad', host).addEventListener('click', function(){ var n = parseNums($('.one', host).value, 1); if(n.length && treeCount(root) < 31){ add(n[0]); draw(); } });
+  parseNums($('.ks', host).value, 31).forEach(add); draw();
+}
+
+/* ============ BST LAB ============ */
+function bstLab(host){
+  var root = null, last = null, hot = [];
+  host.innerHTML = '<div class="lab"><p class="lab-title">BST lab (the lesson\'s insertNode and searchNode)</p>' +
+    '<div class="chips pre" style="margin:0 0 8px"><button class="chip" data-k="10 5 2 15 18 12 3 1" type="button">Lesson example</button><button class="chip" data-k="50 30 20 40 70 60 80" type="button">Balanced</button><button class="chip" data-k="1 2 3 4 5 6 7" type="button">Sorted (skewed)</button></div>' +
+    '<label class="f">Keys waiting to be inserted<input type="text" class="wide pend" id="bl-p" value="10 5 2 15 18 12 3 1"></label>' +
+    '<div class="row"><button class="btn nx" type="button">Insert next</button><button class="btn ghost al" type="button">Insert all</button><button class="btn ghost rs" type="button">Clear tree</button></div>' +
+    '<div class="row"><label class="f" style="flex-direction:row;align-items:center;gap:6px">Search for<input type="text" inputmode="numeric" class="sk" id="bl-s" value="12" style="width:5em"></label><button class="btn ghost se" type="button">Search</button></div>' +
+    '<div class="tv"></div><div class="readout"></div><div class="seq"></div><div class="log"></div></div>';
+  var tv = $('.tv', host), log = $('.log', host), ro = $('.readout', host), pend = $('.pend', host);
+  function say(lines){ log.innerHTML = lines.map(function(l){ return '<div>' + l + '</div>'; }).join(''); log.scrollTop = 0; }
+  function draw(){
+    var handle = drawTree(tv, root, {label:'Binary search tree'});
+    if(last && handle.el(last)) handle.el(last).classList.add('hot');
+    hot.forEach(function(n){ if(handle.el(n)) handle.el(n).classList.add('hot'); });
+    var ht = treeHeight(root), n = treeCount(root);
+    ro.innerHTML = 'nodes <b>' + n + '</b> &nbsp; height <b>' + (n ? ht : '-') + '</b> edges &nbsp; ' + (n > 2 && ht >= n - 1 ? '<b style="color:var(--bad)">skewed: behaves like a linked list</b>' : 'in-order is sorted:');
+    $('.seq', host).innerHTML = seqHtml(keysOf(inOrder(root)));
+  }
+  function insertOne(k){
+    var r = bstInsert(root, k); root = r.root; last = r.node; hot = [];
+    var lines = [];
+    if(r.path.length === 0) lines.push('Tree is empty, so <span class="hit">' + k + '</span> becomes the root.');
+    r.path.forEach(function(p){
+      if(p.dir === 'dup') lines.push(k + ' = ' + p.node.key + ' → duplicate, the tree is unchanged.');
+      else lines.push(k + (p.dir === 'left' ? ' &lt; ' : ' &gt; ') + p.node.key + ' → go ' + p.dir);
+    });
+    if(!r.dup && r.path.length){ var lp = r.path[r.path.length - 1]; lines.push(lp.dir + ' of ' + lp.node.key + ' is empty → insert <span class="hit">' + k + '</span> here as a leaf.'); }
+    return lines;
+  }
+  function popNext(){ var ks = parseNums(pend.value); if(!ks.length) return null; var k = ks.shift(); pend.value = ks.join(' '); return k; }
+  $('.nx', host).addEventListener('click', function(){
+    if(treeCount(root) >= 31){ say(['Tree is big enough. Press Clear tree to start over.']); return; }
+    var k = popNext(); if(k === null){ say(['No keys waiting. Type some above or pick a preset.']); return; }
+    say(insertOne(k)); draw();
+  });
+  $('.al', host).addEventListener('click', function(){
+    var k, lines = [], c = 0;
+    while(treeCount(root) < 31 && (k = popNext()) !== null){ lines = insertOne(k); c++; }
+    say(c ? ['Inserted ' + c + ' key(s). Showing the steps of the last one:'].concat(lines) : ['No keys waiting.']); draw();
+  });
+  $('.rs', host).addEventListener('click', function(){ root = null; last = null; hot = []; say(['Tree cleared.']); draw(); });
+  $('.se', host).addEventListener('click', function(){
+    var k = parseNums($('.sk', host).value, 1); if(!k.length){ say(['Type a whole number to search for.']); return; }
+    var r = bstSearch(root, k[0]); last = null; hot = r.path;
+    var lines = root ? r.steps.map(esc) : ['The tree is empty.'];
+    lines.push('Nodes visited: <span class="hit">' + r.path.length + '</span>' + (r.found ? ' (found)' : ' (not found)'));
+    say(lines); draw();
+  });
+  $$('.pre .chip', host).forEach(function(c){ c.addEventListener('click', function(){ pend.value = c.getAttribute('data-k'); root = null; last = null; hot = []; say(['Preset loaded. Press Insert next to add keys one at a time.']); draw(); }); });
+  var lines0 = []; [10, 5, 2].forEach(function(k){ lines0 = insertOne(k); });
+  pend.value = '15 18 12 3 1';
+  say(['10, 5 and 2 are already in. Steps for the last one:'].concat(lines0)); draw();
+}
+
+/* ============ HEIGHT CALC ============ */
+function heightCalc(host){
+  host.innerHTML = '<div class="lab"><p class="lab-title">Worst-case comparisons for a search</p>' +
+    '<div class="row"><label class="f">Number of keys, n<input type="number" class="n" id="hc-n" value="1000" min="1" max="1000000000" style="width:10em"></label></div>' +
+    '<div class="readout res"></div>' +
+    '<div class="tw"><table><tr><th>n</th><th>Balanced BST</th><th>Skewed BST</th></tr><tbody class="tb"></tbody></table></div></div>';
+  function bal(n){ return Math.floor(Math.log(n) / Math.LN2 + 1e-9) + 1; }
+  function fmt(n){ return n.toLocaleString('en-US'); }
+  var tb = $('.tb', host);
+  [7, 15, 1000, 1000000].forEach(function(n){ tb.appendChild(h('tr', null, '<td class="big">' + fmt(n) + '</td><td class="big">' + bal(n) + '</td><td class="big">' + fmt(n) + '</td>')); });
+  function upd(){
+    var n = parseInt($('.n', host).value, 10);
+    if(!(n >= 1)){ $('.res', host).textContent = 'Enter a whole number of 1 or more.'; return; }
+    $('.res', host).innerHTML = 'balanced <b>' + bal(n) + '</b> comparisons (⌊log₂ n⌋ + 1) &nbsp; skewed <b>' + fmt(n) + '</b> comparisons';
+  }
+  $('.n', host).addEventListener('input', upd); upd();
+}
+
+/* ============ WORKBOOK APPLICATION ============ */
+function appPractice(host){
+  var sets = [[10, 12, 3, 9, 8, 7], [1, 4, 6, 9, 7], [6, 7, 8, 9, 5], [2, 1, 4, 3, 5]];
+  var rule = 'level', shown = [false, false, false, false];
+  function render(){
+    host.innerHTML = '<div class="lab"><p class="lab-title">Workbook application: four insert lists</p>' +
+      '<div class="chips" style="margin:0 0 6px"><button class="chip" data-r="level" type="button" aria-pressed="' + (rule === 'level') + '">Level-order insert (binary tree)</button><button class="chip" data-r="bst" type="button" aria-pressed="' + (rule === 'bst') + '">BST rule (smaller left, bigger right)</button></div>' +
+      '<p style="font-size:.9rem;color:var(--muted);margin:4px 0 0">The first key in each list is the root.</p><div class="items"></div></div>';
+    $$('.chip', host).forEach(function(c){ c.addEventListener('click', function(){ rule = c.getAttribute('data-r'); render(); }); });
+    var items = $('.items', host);
+    sets.forEach(function(keys, i){
+      var box = h('div', {'class':'qi'});
+      box.appendChild(h('p', {'class':'qt'}, '<span class="qn">' + (i + 1) + '.</span>' + keys.map(function(k){ return 'Insert(' + k + ')'; }).join(', ')));
+      var btn = h('button', {'class':'btn sm', type:'button'}, shown[i] ? 'Hide answer' : 'Show answer');
+      var ans = h('div'); ans.hidden = !shown[i];
+      var root = rule === 'level' ? buildLevel(keys) : buildBST(keys);
+      var th = h('div'); ans.appendChild(th);
+      ans.appendChild(h('div', {'class':'seq'}, '<small>Pre-order&nbsp;&nbsp;</small>' + seqHtml(keysOf(preOrder(root)))));
+      ans.appendChild(h('div', {'class':'seq'}, '<small>In-order&nbsp;&nbsp;&nbsp;&nbsp;</small>' + seqHtml(keysOf(inOrder(root)))));
+      ans.appendChild(h('div', {'class':'seq'}, '<small>Post-order&nbsp;</small>' + seqHtml(keysOf(postOrder(root)))));
+      btn.addEventListener('click', function(){ shown[i] = !shown[i]; ans.hidden = !shown[i]; btn.textContent = shown[i] ? 'Hide answer' : 'Show answer'; });
+      box.appendChild(btn); box.appendChild(ans); items.appendChild(box);
+      drawTree(th, root, {label:'Answer tree for list ' + (i + 1)});
+    });
+  }
+  render();
+}
+/* ============ GRAPH LAB ============ */
+function parseEdges(text){
+  var out = [];
+  String(text).split(/[,;\n]+/).forEach(function(part){
+    var m = part.match(/^\s*([^\s>\-]+)\s*(?:-+>?|>)\s*([^\s>\-]+)\s*$/);
+    if(m) out.push([m[1], m[2]]);
+  });
+  return out;
+}
+function drawGraph(host, verts, edges, directed, colors){
+  var id = 'ah' + (++_uid), W = 320, Hh = 270, cx = W / 2, cy = Hh / 2, n = verts.length, R = n <= 1 ? 0 : Math.min(100, 34 + n * 13), pos = {};
+  verts.forEach(function(v, i){ var a = -Math.PI / 2 + 2 * Math.PI * i / Math.max(n, 1); pos[v] = [cx + R * Math.cos(a), cy + R * Math.sin(a)]; });
+  var s = '<svg xmlns="http://www.w3.org/2000/svg" width="' + W + '" height="' + Hh + '" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Graph drawing">';
+  if(directed) s += '<defs><marker id="' + id + '" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="garrow" d="M0,0 L10,5 L0,10 z"/></marker></defs>';
+  edges.forEach(function(e){
+    var a = pos[e[0]], b = pos[e[1]]; if(!a || !b) return;
+    var dx = b[0] - a[0], dy = b[1] - a[1], len = Math.sqrt(dx * dx + dy * dy) || 1, ux = dx / len, uy = dy / len, r = 17;
+    var x1 = a[0] + ux * (directed ? r : 0), y1 = a[1] + uy * (directed ? r : 0), x2 = b[0] - ux * (directed ? r + 2 : 0), y2 = b[1] - uy * (directed ? r + 2 : 0);
+    s += '<line class="ge" x1="' + x1.toFixed(1) + '" y1="' + y1.toFixed(1) + '" x2="' + x2.toFixed(1) + '" y2="' + y2.toFixed(1) + '"' + (directed ? ' marker-end="url(#' + id + ')"' : '') + '/>';
+  });
+  verts.forEach(function(v){
+    var p = pos[v], c = colors && colors[v] === 1 ? ' c1' : '';
+    s += '<g class="gn' + c + '" transform="translate(' + p[0].toFixed(1) + ',' + p[1].toFixed(1) + ')"><circle r="17"/><text>' + esc(v) + '</text></g>';
+  });
+  host.innerHTML = '<div class="svgbox">' + s + '</svg></div>';
+}
+function yesno(b){ return b ? '<b>Yes</b>' : '<b>No</b>'; }
+function graphLab(host){
+  var presets = [
+    {n:'Lesson program', v:'1 2 3 4 5', e:'1-2, 1-3, 2-4, 2-5', d:false},
+    {n:'Example 1 (undirected)', v:'1 2 3 4', e:'1-2, 2-4, 3-4, 4-1', d:false},
+    {n:'Example 2 (directed)', v:'1 2 3 4 5', e:'1-3, 1-4, 2-3, 2-5, 3-5, 4-5', d:true},
+    {n:'Triangle (Euler)', v:'1 2 3', e:'1-2, 2-3, 3-1', d:false},
+    {n:'Square (bipartite)', v:'1 2 3 4', e:'1-2, 2-3, 3-4, 4-1', d:false}
+  ];
+  host.innerHTML = '<div class="lab"><p class="lab-title">Graph analyzer</p>' +
+    '<div class="chips pre" style="margin:0 0 8px"></div>' +
+    '<label class="f">Vertices (space separated)<input type="text" class="wide gv" id="gl-v" value="1 2 3 4 5"></label>' +
+    '<label class="f" style="margin-top:8px">Edges: write a-b, separated by commas<textarea class="ge2" id="gl-e">1-2, 1-3, 2-4, 2-5</textarea></label>' +
+    '<div class="row"><label style="display:flex;gap:6px;align-items:center;font-weight:600;font-size:.92rem"><input type="checkbox" class="gd" id="gl-d"> Directed (a-b means an arrow a → b)</label><button class="btn gb" type="button">Analyze</button></div>' +
+    '<div class="gdraw"></div><div class="tw"><table style="min-width:0"><tbody class="gt"></tbody></table></div>' +
+    '<p class="lab-title" style="margin-top:12px">Output of displayGraph()</p><pre class="out gp" style="margin-top:4px"></pre></div>';
+  var chips = $('.pre', host);
+  presets.forEach(function(p, i){ var b = h('button', {'class':'chip', type:'button'}, p.n); b.addEventListener('click', function(){ $('.gv', host).value = p.v; $('.ge2', host).value = p.e; $('.gd', host).checked = p.d; run(); }); chips.appendChild(b); });
+  function run(){
+    var directed = $('.gd', host).checked;
+    var verts = $('.gv', host).value.split(/[\s,;]+/).filter(Boolean), seen = {}; verts = verts.filter(function(v){ if(seen[v]) return false; seen[v] = 1; return true; });
+    var edges = parseEdges($('.ge2', host).value), added = [];
+    edges.forEach(function(e){ e.forEach(function(v){ if(!seen[v]){ seen[v] = 1; verts.push(v); added.push(v); } }); });
+    verts = verts.slice(0, 12);
+    edges = edges.filter(function(e){ return verts.indexOf(e[0]) >= 0 && verts.indexOf(e[1]) >= 0; });
+    var g = analyzeGraph(verts, edges, directed);
+    drawGraph($('.gdraw', host), verts, g.edges, directed, !directed && g.bipartite && g.E > 0 ? g.color : null);
+    var rows = [];
+    rows.push(['Vertices, edges', '|V| = <b>' + g.V + '</b>, |E| = <b>' + g.E + '</b>' + (added.length ? ' <small>(added missing vertices: ' + esc(added.join(', ')) + ')</small>' : '')]);
+    if(directed) rows.push(['In / out degree', verts.map(function(v){ return esc(v) + ': in <b>' + g.indeg[v] + '</b> / out <b>' + g.outdeg[v] + '</b>'; }).join('<br>')]);
+    else rows.push(['Degrees', verts.map(function(v){ return esc(v) + ': <b>' + g.degree[v] + '</b>'; }).join(' &nbsp; ')]);
+    rows.push(['Sum of degrees', directed ? 'in-degrees total <b>' + verts.reduce(function(s, v){ return s + g.indeg[v]; }, 0) + '</b>, out-degrees total <b>' + verts.reduce(function(s, v){ return s + g.outdeg[v]; }, 0) + '</b>, both equal |E|' : '<b>' + g.sumDegrees + '</b> = 2 × |E| = ' + (2 * g.E)]);
+    rows.push([directed ? 'Connected (ignoring arrow direction)' : 'Connected', yesno(g.connected) + (g.components > 1 ? ' <small>(' + g.components + ' components)</small>' : '')]);
+    if(!directed){
+      rows.push(['Has a cycle', yesno(g.hasCycle)]);
+      rows.push(['Tree (connected, no cycles)', yesno(g.isTree) + ' <small>(a tree has exactly |V| − 1 edges)</small>']);
+      rows.push(['Eulerian circuit', yesno(g.eulerCircuit) + (g.odd.length ? ' <small>odd-degree vertices: ' + esc(g.odd.join(', ')) + '</small>' : g.E ? ' <small>every degree is even</small>' : '')]);
+      rows.push(['Eulerian path (not closed)', yesno(g.eulerPath) + ' <small>(0 or 2 odd vertices)</small>']);
+      rows.push(['Bipartite', yesno(g.bipartite) + (g.bipartite && g.E ? ' <small>(two colors shown in the drawing)</small>' : ' <small>(an odd cycle exists)</small>')]);
+    } else rows.push(['Euler / bipartite checks', '<small>shown for undirected graphs only</small>']);
+    rows.push(['BFS from ' + esc(verts[0] || '-'), g.bfs.map(esc).join(' → ')]);
+    rows.push(['DFS from ' + esc(verts[0] || '-'), g.dfs.map(esc).join(' → ')]);
+    $('.gt', host).innerHTML = rows.map(function(r){ return '<tr><td style="font-weight:600;width:40%">' + r[0] + '</td><td>' + r[1] + '</td></tr>'; }).join('');
+    var out = '';
+    verts.forEach(function(v){ out += '\nVertex ' + v + '\nNeighbors: ' + g.adj[v].join(' ') + (g.adj[v].length ? ' ' : '') + '\n'; });
+    $('.gp', host).textContent = out;
+  }
+  $('.gb', host).addEventListener('click', run);
+  $('.gd', host).addEventListener('change', run);
+  run();
+}
+
+/* ============ HASH LAB ============ */
+function hashLab(host){
+  var size = 7, table, next = 0;
+  host.innerHTML = '<div class="lab"><p class="lab-title">Hash map lab (hash = key % size, linear probing)</p>' +
+    '<div class="row"><label class="f">Table size<select class="sz" id="hl-s"><option>5</option><option selected>7</option><option>10</option><option>11</option></select></label>' +
+    '<label class="f">Key (whole number)<input type="text" inputmode="numeric" class="k" id="hl-k" value="10" style="width:6em"></label>' +
+    '<label class="f">Value<input type="text" class="v" id="hl-v" value="A" style="width:5em"></label></div>' +
+    '<div class="row"><button class="btn ins" type="button">Insert</button><button class="btn ghost se" type="button">Search</button><button class="btn ghost rs" type="button">Clear table</button><button class="btn ghost sm lp" type="button">Load the lesson (10, 17, 24, 15)</button></div>' +
+    '<div class="tw" style="display:inline-block;max-width:100%"><table class="ht"><thead><tr><th>Index</th><th>Key</th><th>Value</th></tr></thead><tbody class="tb"></tbody></table></div>' +
+    '<div class="readout"></div><div class="log"></div></div>';
+  var tb = $('.tb', host), log = $('.log', host), ro = $('.readout', host);
+  function reset(){ size = parseInt($('.sz', host).value, 10); table = []; for(var i = 0; i < size; i++) table.push(null); next = 0; }
+  function draw(probes, okIdx){
+    tb.innerHTML = '';
+    table.forEach(function(c, i){
+      var tr = h('tr', null, '<td>' + i + '</td><td' + (c ? '' : ' class="empty"') + '>' + (c ? c.key : '') + '</td><td' + (c ? '' : ' class="empty"') + '>' + (c ? esc(c.val) : '') + '</td>');
+      if(probes && probes.indexOf(i) >= 0) tr.className = 'hot';
+      if(okIdx === i) tr.className = 'ok';
+      tb.appendChild(tr);
+    });
+    var used = table.filter(Boolean).length;
+    ro.innerHTML = 'entries <b>' + used + '</b> of ' + size + ' &nbsp; load factor <b>' + (used / size).toFixed(2) + '</b>';
+  }
+  function say(lines){ log.innerHTML = lines.map(function(l){ return '<div>' + l + '</div>'; }).join(''); }
+  function key(){ var t = $('.k', host).value.trim(); if(!/^-?\d+$/.test(t)) return null; return parseInt(t, 10); }
+  function autoVal(){ var v = $('.v', host).value.trim(); if(v) return v; var a = String.fromCharCode(65 + (next % 26)); return a; }
+  function put(k, v){
+    var r = hashPut(table, size, k, v), lines = [];
+    lines.push('hash(' + k + ') = ' + k + ' % ' + size + ' = <span class="hit">' + r.start + '</span>');
+    var snap = r.probes;
+    // describe probes using the table state before this insert (reconstruct from result)
+    snap.forEach(function(idx, j){
+      var last = j === snap.length - 1;
+      if(last && r.ok && !r.updated) lines.push('index ' + idx + ' is empty → store (' + k + ', ' + esc(v) + ') here');
+      else if(last && r.ok && r.updated) lines.push('index ' + idx + ' already holds key ' + k + ' → keys are unique, so its value is updated to ' + esc(v));
+      else lines.push('index ' + idx + ' is taken → collision, probe the next index' + (idx === size - 1 ? ' (wrap around to 0)' : ''));
+    });
+    if(!r.ok) lines.push('Every slot was checked and all are full. The table is full, so nothing was stored.');
+    else next++;
+    return {r:r, lines:lines};
+  }
+  function ins(k, v){ var o = put(k, v); return o; }
+  $('.ins', host).addEventListener('click', function(){
+    var k = key(); if(k === null){ say(['Type a whole number for the key.']); return; }
+    var before = table.map(function(c){ return c ? c.key : null; });
+    var o = ins(k, autoVal());
+    // rebuild narration with true occupant keys
+    var lines = [o.lines[0]];
+    o.r.probes.forEach(function(idx, j){
+      var lastP = j === o.r.probes.length - 1;
+      if(lastP && o.r.ok && !o.r.updated) lines.push('index ' + idx + ' is empty → store (' + k + ', ' + esc(table[idx].val) + ') here');
+      else if(lastP && o.r.ok && o.r.updated) lines.push('index ' + idx + ' already holds key ' + k + ' → keys are unique, so its value is updated');
+      else lines.push('index ' + idx + ' holds key ' + before[idx] + ' → collision, probe next' + (idx === size - 1 ? ' (wrap around to index 0)' : ''));
+    });
+    if(!o.r.ok) lines.push('All slots are full. Nothing was stored.');
+    say(lines); draw(o.r.probes, o.r.ok ? o.r.idx : -1);
+    $('.k', host).value = String(k + 7); $('.v', host).value = String.fromCharCode(65 + (next % 26));
+  });
+  $('.se', host).addEventListener('click', function(){
+    var k = key(); if(k === null){ say(['Type a whole number for the key.']); return; }
+    var r = hashGet(table, size, k), lines = ['hash(' + k + ') = ' + k + ' % ' + size + ' = <span class="hit">' + r.start + '</span>'];
+    r.probes.forEach(function(idx, j){
+      var c = table[idx], lastP = j === r.probes.length - 1;
+      if(lastP && r.found) lines.push('index ' + idx + ' holds key ' + k + ' → <span class="hit">found</span>, value = ' + esc(c.val) + ' (extra probes: ' + j + ')');
+      else if(lastP && r.reason === 'empty') lines.push('index ' + idx + ' is empty → stop. Key ' + k + ' is <span class="hit">not in the map</span>.');
+      else lines.push('index ' + idx + ' holds key ' + c.key + ' ≠ ' + k + ' → probe next' + (idx === size - 1 ? ' (wrap around to index 0)' : ''));
+    });
+    if(!r.found && r.reason === 'loop') lines.push('Looped all the way back to the start without a match → <span class="hit">not in the map</span>.');
+    say(lines); draw(r.probes, r.found ? r.idx : -1);
+  });
+  $('.rs', host).addEventListener('click', function(){ reset(); say(['Table cleared.']); draw(); });
+  $('.sz', host).addEventListener('change', function(){ reset(); say(['New table of size ' + size + '.']); draw(); });
+  $('.lp', host).addEventListener('click', function(){
+    $('.sz', host).value = '7'; reset();
+    [[10, 'A'], [17, 'B'], [24, 'C'], [15, 'D']].forEach(function(p){ hashPut(table, size, p[0], p[1]); }); next = 4;
+    $('.k', host).value = '24'; $('.v', host).value = 'E';
+    say(['Loaded (10,A), (17,B), (24,C), (15,D). Press Search with key 24 to follow 3 → 4 → 5.']); draw();
+  });
+  reset(); draw(); $('.lp', host).click();
+}
+
+/* ============ TABS + INIT ============ */
+var TABS = ['overview', 'queue', 'binary', 'bst', 'graph', 'hash'];
+function showTab(id, noScroll){
+  if(TABS.indexOf(id) < 0) id = 'overview';
+  TABS.forEach(function(t){
+    var p = $('#p-' + t), b = $('#t-' + t);
+    p.hidden = t !== id; b.setAttribute('aria-selected', t === id ? 'true' : 'false'); b.tabIndex = t === id ? 0 : -1;
+  });
+  try{ history.replaceState(null, '', '#' + id); }catch(e){}
+  try{ localStorage.setItem('dsa1-tab', id); }catch(e){}
+  centerBoxes($('#p-' + id));
+  var b = $('#t-' + id); if(b && b.scrollIntoView) { try{ b.scrollIntoView({inline:'center', block:'nearest'}); }catch(e){} }
+  if(!noScroll) window.scrollTo(0, 0);
+}
+function initPage(){
+  $$('.tab').forEach(function(b){ b.addEventListener('click', function(){ showTab(b.getAttribute('data-tab')); }); });
+  $$('[data-go]').forEach(function(b){ b.addEventListener('click', function(){ var t = document.getElementById(b.getAttribute('data-go')); if(t) t.scrollIntoView({behavior:'smooth', block:'start'}); }); });
+  var comps = {'queue-lab':queueLab, 'term-viz':termViz, 'trav-viz':travViz, 'level-lab':levelLab, 'bst-lab':bstLab, 'height-calc':heightCalc, 'app-practice':appPractice, 'graph-lab':graphLab, 'hash-lab':hashLab};
+  $$('[data-comp]').forEach(function(el){ var f = comps[el.getAttribute('data-comp')]; if(f) f(el); });
+  $$('[data-quiz]').forEach(function(el){ var d = QUIZ[el.getAttribute('data-quiz')]; if(d) renderQuiz(el, d); });
+  $$('[data-trace]').forEach(function(el){ var d = TRACE[el.getAttribute('data-trace')]; if(d) renderTraces(el, d); });
+  highlightAll(document);
+  var start = (location.hash || '').replace('#', '');
+  if(TABS.indexOf(start) < 0){ try{ start = localStorage.getItem('dsa1-tab') || 'overview'; }catch(e){ start = 'overview'; } }
+  showTab(start, true);
+}
+/* ============ QUIZ DATA ============ */
+var QUIZ = {};
+QUIZ['queue-mcq'] = [
+  {t:'mcq', q:'A linked-list queue keeps both a <code>head</code> and a <code>tail</code> pointer. How long does <code>enqueue</code> take?', o:['O(1)','O(log n)','O(n)','O(n²)'], a:0, why:'The tail pointer takes you straight to the end, so adding a node touches only a couple of links. No walking.'},
+  {t:'mcq', q:'Now imagine the same queue had <b>only</b> a head pointer. How long would <code>enqueue</code> take?', o:['O(1)','O(log n)','O(n)','O(n²)'], a:2, why:'With no tail pointer you must walk from the head to the last node every time, passing every item once. That is O(n).'},
+  {t:'mcq', q:'Start with an empty queue. <code>enqueue(1)</code>, <code>enqueue(2)</code>, <code>enqueue(3)</code>, then <code>dequeue()</code>. What does <code>peek()</code> return?', o:['1','2','3','null'], a:1, why:'The queue was 1, 2, 3 (front first). Dequeue removed 1, so 2 is now at the front.'},
+  {t:'mcq', q:'Which of these is <b>not</b> a queue in real life?', o:['Documents waiting at a printer','Processes waiting for CPU time','The pages behind a browser\'s Back button','Callers waiting at a call center'], a:2, why:'The Back button gives you the <b>most recent</b> page first (last in, first out). That is a stack. The other three serve in the order received.'},
+  {t:'mcq', q:'Calling <code>dequeue()</code> on an empty queue is called…', o:['Queue overflow','Queue underflow','A hash collision','A stack overflow'], a:1, why:'Underflow means trying to remove from an empty structure. The lesson prints <code>Queue Underflow: No elements to dequeue.</code> and returns null.'},
+  {t:'mcq', q:'In <code>dequeue()</code>, why does the code set <code>tail = null</code> when <code>head</code> becomes null?', o:['So tail does not keep pointing at a node that has been removed','To free the memory of the old head','To make peek faster','It is not needed'], a:0, why:'If the last node is removed but tail still points to it, the next enqueue would attach to a node that is no longer in the queue.'},
+  {t:'mcq', q:'How long does it take to check whether the value 9 is somewhere inside a queue of n items?', o:['O(1)','O(log n)','O(n)','O(n²)'], a:2, why:'A queue only exposes its front. To find a value you have to go through the items one by one.'},
+  {t:'mcq', q:'Insert 1, 2, 3 (in that order) into a queue and into a stack. Remove one item from each. What comes out?', o:['Queue: 1, Stack: 3','Queue: 3, Stack: 1','Both give 1','Both give 3'], a:0, why:'Queue is FIFO, so the oldest item (1) leaves. Stack is LIFO, so the newest item (3) leaves.'},
+  {t:'mcq', q:'Which operation does <b>not</b> change the contents of the queue?', o:['enqueue','dequeue','peek','They all change it'], a:2, why:'Peek only reads the front value. Enqueue adds and dequeue removes.'},
+  {t:'mcq', q:'What does <code>dequeue()</code> return in the lesson\'s code?', o:['The index of the removed item','The value of the removed front item (or null if empty)','The new head node','Nothing (void)'], a:1, why:'It returns an <code>Integer</code>: the removed value, or <code>null</code> on underflow. Never an index.'}
+];
+QUIZ['queue-tf'] = [
+  {t:'tf', q:'Adding an item to the queue takes O(1) time.', a:true, why:'Enqueue attaches the new node at the tail. Constant time.'},
+  {t:'tf', q:'Dequeue returns the index or position of the deleted element in a queue.', a:false, why:'Dequeue returns the <b>value</b> that was removed. Queues do not expose positions.'},
+  {t:'tf', q:'Peek operation takes O(1) time.', a:true, why:'It just reads <code>head.getData()</code>.'},
+  {t:'tf', q:'Queue is a non-linear data structure.', a:false, why:'A queue is <b>linear</b>: items sit one after another in a line. Trees and graphs are the non-linear ones.'},
+  {t:'tf', q:'Queue removes an item at the head of the list.', a:true, why:'Items leave from the front (head). That is why the oldest leaves first.'},
+  {t:'tf', q:'Removing an item from the queue takes O(n) time.', a:false, why:'Dequeue only changes the head pointer. It is O(1).'},
+  {t:'tf', q:'Queue can only be implemented using linked list.', a:false, why:'"Only" is the trap. A queue can also be built on an array (for example a circular array). The lesson just happens to use a linked list.'},
+  {t:'tf', q:'Enqueue returns the index or position of the element added to the queue.', a:false, why:'Enqueue returns nothing (void in the lesson). It prints a message instead.'},
+  {t:'tf', q:'Queue implements Last In Last Out in managing items in the list.', a:true, why:'Read literally, the last item to arrive is the last to leave, which is exactly what first-in-first-out means. So the statement is logically true.', flag:'This item is ambiguous. If the author meant to write "Last In First Out" (the stack rule), the intended answer would be False. The lesson always says FIFO. Check with your instructor how they key it.'},
+  {t:'tf', q:'Queue adds an item at the head of the list.', a:false, why:'Items are added at the <b>tail</b> (back). The head is where they leave.'}
+];
+QUIZ['queue-sata'] = [
+  {t:'sata', q:'Which of the following is a real-world application of queue?', o:['bus ticket counter line','key press sequence in keyboard','undo/redo feature of MS Word','ATM booth line'], a:[0,1,3], why:'A ticket line and an ATM line serve people in arrival order. The keyboard input buffer holds key presses in order (the lesson lists it under I/O buffers). Undo/redo is a <b>stack</b>: the last action is undone first.', flag:'Option b is the debatable one. It follows the lesson\'s "keyboard input buffer" example. If your key shows only a and d, that is the likely alternative.'},
+  {t:'sata', q:'Which of the following is true about enqueue?', o:['It adds an item at the tail of the list.','It returns the index or position of the element added to the queue.','It adds an item at the head of the list.','none of the choices'], a:[0], why:'Enqueue adds at the tail and returns no index.'},
+  {t:'sata', q:'Which of the following is true about dequeue?', o:['It removes an item at the tail of the list.','It returns the index or position of the deleted element.','It removes an item at the head of the list.','none of the choices'], a:[2], why:'Dequeue removes from the head and returns the removed value, not an index.'},
+  {t:'sata', q:'Which of the following is true about peek?', o:['It displays the element at the head of the list before removing it.','It displays the element at the head of the list.','It displays the element at the tail of the list.','none of the choices'], a:[1], why:'Peek shows the head element and removes nothing. Option a is wrong because peek never removes.'},
+  {t:'sata', q:'Which of the following correctly describes queue data structure?', o:['It implements FIFO concept in managing items.','It is a non-linear data structure.','It adds an item at the tail of the list.','It removes an item at the tail of the list.'], a:[0,2], why:'FIFO and "adds at the tail" are both true. A queue is linear, and it removes at the head.'}
+];
+QUIZ['binary-mcq'] = [
+  {t:'mcq', q:'Use this tree: A is the root. A has children B and C. B has children D and E. C has children F and G. D has children H and I. E has one child, J.<br>What is the <b>level</b> of node H?', o:['1','2','3','4'], a:2, why:'Count edges from the root: A → B → D → H is 3 edges, so H is at level 3. The root is level 0.'},
+  {t:'mcq', q:'Same tree. How many <b>leaf nodes</b> does it have?', o:['3','4','5','6'], a:2, why:'Leaves have no children: H, I, J, F, G. That is 5.'},
+  {t:'mcq', q:'Same tree. Which node is a sibling of F?', o:['C','G','B','E'], a:1, why:'Siblings share a parent. F and G are both children of C.'},
+  {t:'mcq', q:'Same tree. How many <b>edges</b> are on the path from A to I?', o:['2','3','4','5'], a:1, why:'A → B → D → I uses 3 edges (4 nodes). Path length counts edges.'},
+  {t:'mcq', q:'Same tree. How many nodes are in the subtree rooted at D (counting D)?', o:['1','2','3','5'], a:2, why:'D with its descendants H and I: 3 nodes.'},
+  {t:'mcq', q:'A tree has 12 nodes. How many edges does it have?', o:['10','11','12','13'], a:1, why:'Every node except the root has exactly one edge up to its parent, so edges = nodes − 1 = 11.'},
+  {t:'mcq', q:'What is the maximum number of nodes at level 4 of a binary tree?', o:['4','8','16','32'], a:2, why:'Level L holds at most 2<sup>L</sup> nodes. 2<sup>4</sup> = 16.'},
+  {t:'mcq', q:'Which traversal visits the root <b>last</b>?', o:['Pre-order','In-order','Post-order','All of them'], a:2, why:'Post-order is Left, Right, Root. The "post" says the root comes after.'},
+  {t:'mcq', q:'Pre-order of the A to J tree above is…', o:['A B C D E F G H I J','A B D H I E J C F G','H I D J E B F G C A','H D I B J E A F C G'], a:1, why:'Pre-order is Root, Left, Right: A, then all of B\'s subtree (B, D, H, I, E, J), then C\'s subtree (C, F, G). Option a is level-by-level, c is post-order, d is in-order.'},
+  {t:'mcq', q:'In-order of the A to J tree above is…', o:['A B D H I E J C F G','H I D J E B F G C A','H D I B J E A F C G','A B C D E F G H I J'], a:2, why:'Left, Root, Right: the whole left subtree (H D I B J E), then A, then the right subtree (F C G).'},
+  {t:'mcq', q:'Pre-order is A B D E C F G and in-order is D B E A F C G. What is the post-order?', o:['D E B F G C A','D B E F C G A','A C G F E B D','D E B A F G C'], a:0, why:'This is the lesson\'s A to G tree: A root, B and C its children, D E under B, F G under C. Post-order is Left, Right, Root.'},
+  {t:'mcq', q:'Pre-order: 1 2 4 5 3. In-order: 4 2 5 1 3. What is the post-order?', o:['4 5 2 3 1','4 2 5 3 1','5 4 2 3 1','4 5 3 2 1'], a:0, why:'Pre-order starts with the root, 1. In the in-order list, 4 2 5 is left of 1 and 3 is right of it. In the left part the next pre-order item, 2, is its root with 4 left and 5 right. Tree: 1 (2 (4, 5), 3). Post-order: 4 5 2 3 1.'},
+  {t:'mcq', q:'Which data structure does the level-order insert algorithm use to find the next empty spot?', o:['Stack','Queue','Hash map','Array of arrays'], a:1, why:'A queue visits nodes level by level, left to right (first in, first out). That is the order the algorithm needs.'},
+  {t:'mcq', q:'Using level-order insert: the root is 10 and it has only a left child. Where does the next key go?', o:['Left child of the left child','Right child of the root','Left child of the root, replacing it','New root'], a:1, why:'Pop the root. Its left child exists, so enqueue it. Its right child is empty, so the new node goes there.'},
+  {t:'mcq', q:'How long does any one traversal of a binary tree with n nodes take?', o:['O(1)','O(log n)','O(n)','O(n²)'], a:2, why:'Each node is visited exactly once, so the time grows linearly with n.'},
+  {t:'mcq', q:'Why can you not jump straight to a node in a tree the way you can to an array index?', o:['Every node is reached through edges starting from the root','Trees are stored in sorted order','Trees do not allow recursion','Nodes have no keys'], a:0, why:'Tree nodes are linked, not indexed. You always start at the root and follow edges.'}
+];
+QUIZ['bst-mcq'] = [
+  {t:'mcq', q:'Insert 15, 10, 20, 8, 12, 25 into an empty BST, in that order. Where does 12 end up?', o:['Left child of 10','Right child of 10','Left child of 20','Right child of 8'], a:1, why:'12 &lt; 15 → left (10). 12 &gt; 10 → right of 10, which is empty. So 12 is the right child of 10.'},
+  {t:'mcq', q:'Insert 50, 30, 70, 20, 40, 60, 80. What is the in-order traversal?', o:['50 30 20 40 70 60 80','20 30 40 50 60 70 80','20 40 30 60 80 70 50','80 70 60 50 40 30 20'], a:1, why:'In-order of any BST is sorted ascending. Option a is pre-order and c is post-order.'},
+  {t:'mcq', q:'Insert 1, 2, 3, 4, 5 in that order. What is the height of the tree in edges?', o:['2','3','4','5'], a:2, why:'Each key is bigger than all before it, so each goes to the right of the last. The tree is a chain of 5 nodes with 4 edges.'},
+  {t:'mcq', q:'What is the most comparisons needed to find a key in a balanced BST of 15 nodes?', o:['3','4','8','15'], a:1, why:'15 nodes fill levels 0 to 3 completely. The longest path has 4 nodes, so at most 4 comparisons. (log₂ 16 = 4.)'},
+  {t:'mcq', q:'Which insertion order of the keys 1, 2, 3 gives a balanced BST?', o:['1, 2, 3','3, 2, 1','2, 1, 3','1, 3, 2'], a:2, why:'Inserting the middle key first puts 2 at the root, 1 on the left and 3 on the right. The other orders create chains.'},
+  {t:'mcq', q:'Where is the <b>smallest</b> key in a BST?', o:['At the root','In the leftmost node','In the rightmost node','At the deepest leaf on the right'], a:1, why:'Smaller always goes left, so keep going left until you cannot. The largest key is the rightmost node.'},
+  {t:'mcq', q:'In the lesson\'s tree (root 50, children 30 and 70, then 20 40 60 80), you search for 55. How many nodes are visited before reaching null?', o:['2','3','4','7'], a:1, why:'55 &gt; 50 → right to 70. 55 &lt; 70 → left to 60. 55 &lt; 60 → left of 60 is null. Visited: 50, 70, 60 = 3 nodes. Not found.'},
+  {t:'mcq', q:'Insert 20, 10, 30, 10 using the lesson\'s <code>insertNode</code>. What does the in-order traversal print?', o:['10 10 20 30','10 20 30','20 10 30','10 20 30 10'], a:1, why:'The second 10 is neither less than nor greater than the existing 10, so the code changes nothing. In-order of 20 / 10 / 30 is 10 20 30.'},
+  {t:'mcq', q:'Which situation makes BST search O(n)?', o:['Keys inserted in sorted order','Keys inserted in random order','The tree has exactly 3 nodes','The root has two children'], a:0, why:'Sorted insertion builds a one-sided chain, so a search may pass through every node.'},
+  {t:'mcq', q:'Why is searching a (balanced) BST faster than scanning a linked list?', o:['Each comparison discards about half of the remaining keys','BST nodes are stored in an array','Searching a BST does not use comparisons','A BST has fewer nodes'], a:0, why:'That halving is what produces O(log n) instead of O(n).'},
+  {t:'mcq', q:'A new node inserted into a BST is always a…', o:['Root','Leaf','Parent','Sibling'], a:1, why:'You walk down until you find an empty spot, which is below an existing node. The new node has no children yet, so it is a leaf.'},
+  {t:'mcq', q:'Which traversal of a BST lists the keys in ascending order?', o:['Pre-order','In-order','Post-order','None of them'], a:1, why:'Left (smaller), Root, Right (bigger) is ascending order.'}
+];
+QUIZ['bst-tf'] = [
+  {t:'tf', q:'Inserting a node in a skewed binary search tree requires O(1) time.', a:false, why:'A skewed tree is a chain, so you may pass every node. Insertion is O(n).'},
+  {t:'tf', q:'Inserting a node in a balanced binary search tree requires O(n) time.', a:false, why:'Balanced means O(log n). O(n) is the skewed case.'},
+  {t:'tf', q:'In a binary search tree, a node can have more than 2 child nodes.', a:false, why:'"Binary" means at most two children: left and right.'},
+  {t:'tf', q:'A new node is always inserted as leaf node in a binary search tree.', a:true, why:'You search down to an empty spot and attach the new node there, so it starts with no children.'},
+  {t:'tf', q:'The node at the top of the tree is called root.', a:true, why:'Level 0, ancestor of every other node.'},
+  {t:'tf', q:'Tree data structure is nonlinear.', a:true, why:'Nodes branch out in a hierarchy instead of forming a single sequence.'},
+  {t:'tf', q:'The first node of a tree is called leaf.', a:false, why:'The first (top) node is the <b>root</b>. A leaf is a node with no children.'},
+  {t:'tf', q:'Any node except the root node has one edge upward to a node called parent.', a:true, why:'Each non-root node has exactly one parent. The root has none.'},
+  {t:'tf', q:'Data access in a linked list is sequential.', a:true, why:'You reach a node by following links from the head, one after another.'},
+  {t:'tf', q:'Since both arrays and linked lists are nonlinear structures, the time required to search a list is proportional to the size of the data set.', a:false, why:'The reason is wrong: arrays and linked lists are <b>linear</b> structures. (Their linear search is O(n), but the statement\'s premise is false.)'}
+];
+QUIZ['graph-mcq'] = [
+  {t:'mcq', q:'Example 1 has edges {1,2}, {2,4}, {3,4}, {4,1}. What is the degree of vertex 4?', o:['1','2','3','4'], a:2, why:'Vertex 4 touches three edges: {2,4}, {3,4} and {4,1}.'},
+  {t:'mcq', q:'An undirected graph has 6 edges. What is the sum of all vertex degrees?', o:['6','9','12','36'], a:2, why:'Every edge is counted once at each of its two ends, so the sum is 2 × 6 = 12.'},
+  {t:'mcq', q:'An undirected graph has four vertices with degrees 2, 2, 3 and 3. How many edges does it have?', o:['4','5','10','Cannot be known'], a:1, why:'Sum of degrees = 10, and the sum equals 2 × edges, so there are 5 edges.'},
+  {t:'mcq', q:'Example 2 is directed with E = {(1,3),(1,4),(2,3),(2,5),(3,5),(4,5)}. What is the <b>in-degree</b> of vertex 5?', o:['0','1','2','3'], a:3, why:'Arrows pointing into 5 come from 2, 3 and 4. That is 3. (Its out-degree is 0.)'},
+  {t:'mcq', q:'Which graph has an Eulerian circuit?', o:['A triangle (3 vertices, every pair joined)','A path 1 – 2 – 3','A star: one center joined to 3 outer vertices','Any graph with an odd-degree vertex'], a:0, why:'Every vertex of a triangle has degree 2 (even) and it is connected. The path and the star have odd-degree vertices.'},
+  {t:'mcq', q:'Time to remove a vertex (and all its edges) from a graph, per the lesson?', o:['O(1)','O(V)','O(E)','O(V + E)'], a:3, why:'You must remove the vertex and clean up every edge attached to it.'},
+  {t:'mcq', q:'Time to search for an edge?', o:['O(1)','O(V)','O(E)','O(V + E)'], a:2, why:'You check edges one by one: O(E). Searching for a vertex is O(V).'},
+  {t:'mcq', q:'Which graph is bipartite?', o:['A triangle','A square (4-cycle)','A pentagon (5-cycle)','A complete graph on 4 vertices'], a:1, why:'A square can be colored with two colors alternating around it. Triangles and pentagons are odd cycles, which a bipartite graph cannot contain.'},
+  {t:'mcq', q:'A tree has 8 vertices. How many edges does it have?', o:['6','7','8','9'], a:1, why:'A tree with n vertices has n − 1 edges.'},
+  {t:'mcq', q:'Breadth-first search (BFS) uses which structure to keep track of what to visit next?', o:['Queue','Stack','Hash map','Sorted array'], a:0, why:'BFS explores level by level, first come first served: a queue. (DFS uses a stack or recursion.)'},
+  {t:'mcq', q:'Which kind of graph best models one-way web page links?', o:['Undirected graph','Directed graph','Bipartite graph','Tree'], a:1, why:'A link from page A to page B does not mean B links back to A, so edges need a direction.'},
+  {t:'mcq', q:'A path visits 4 vertices. What is its length?', o:['3','4','5','Depends on weights'], a:0, why:'Path length counts <b>edges</b>. Four vertices in a row are joined by 3 edges.'},
+  {t:'mcq', q:'Time to add a vertex, per the lesson?', o:['O(1)','O(V)','O(E)','O(V + E)'], a:0, why:'Adding is cheap: append the new vertex.'},
+  {t:'mcq', q:'In the lesson\'s program you call <code>addEdge(1, 2)</code>. What is now in vertex 2\'s neighbor list?', o:['Nothing','1','2','1 and 2'], a:1, why:'The program adds each vertex to the other\'s list, so vertex 2 now lists 1, and vertex 1 lists 2.'}
+];
+QUIZ['graph-tf'] = [
+  {t:'tf', q:'In a directed graph (digraph), each edge has a specific direction from one vertex to another.', a:true, why:'That is the definition of a directed edge: an arrow from source to target.'},
+  {t:'tf', q:'A tree is a connected graph without any cycles.', a:true, why:'Connected and acyclic. Exactly the definition.'},
+  {t:'tf', q:'A bipartite graph can contain odd-length cycles.', a:false, why:'A graph is bipartite exactly when it has <b>no</b> odd-length cycle.'},
+  {t:'tf', q:'In an undirected graph, every vertex must have an even degree for the graph to have an Eulerian circuit.', a:true, why:'Entering and leaving a vertex uses edges in pairs, so each vertex needs even degree (and the edges must be connected).'},
+  {t:'tf', q:'A Hamiltonian path is a path in a graph that visits every vertex exactly once and returns to the starting vertex.', a:false, why:'Returning to the start makes it a Hamiltonian <b>cycle</b>. A Hamiltonian path need not return.'},
+  {t:'tf', q:'Graph theory has no practical applications outside of mathematics and computer science.', a:false, why:'Networks, transportation planning, social networks, biology, scheduling and more.'},
+  {t:'tf', q:'A connected graph with n vertices and n−1 edges is a tree.', a:true, why:'Connected with the minimum number of edges means no cycle can fit, so it is a tree.'},
+  {t:'tf', q:'In a directed graph, the in-degree of a vertex is the number of edges leaving that vertex.', a:false, why:'In-degree counts edges <b>coming in</b>. Edges leaving give the out-degree.'},
+  {t:'tf', q:'A bipartite graph can have a Hamiltonian cycle.', a:true, why:'For example a square (4-cycle) is bipartite and is itself a Hamiltonian cycle.'},
+  {t:'tf', q:'The degree of a vertex in a graph is the number of edges incident to that vertex.', a:true, why:'"Incident" means touching. Degree counts the edges touching the vertex.'}
+];
+QUIZ['hash-mcq'] = [
+  {t:'mcq', q:'Array size is 7 and the hash function is <code>key % size</code>. Which index does key 45 map to (before any collisions)?', o:['1','2','3','5'], a:2, why:'45 = 6 × 7 + 3, so 45 % 7 = 3.'},
+  {t:'mcq', q:'Size 7. Which index does key 100 map to?', o:['0','2','3','6'], a:1, why:'100 = 14 × 7 + 2, so 100 % 7 = 2.'},
+  {t:'mcq', q:'Two different keys produce the same index. This is called a…', o:['Collision','Underflow','Cycle','Rehash'], a:0, why:'Both keys want the same slot in the array.'},
+  {t:'mcq', q:'With linear probing, a key hashes to index 3. Indexes 3 and 4 are taken and 5 is empty. Where does it go?', o:['3','4','5','6'], a:2, why:'Probe 3, then 4, then 5. The first empty slot wins.'},
+  {t:'mcq', q:'Size 5. A key hashes to index 4, which is taken. Where does linear probing look next?', o:['Index 5','Index 3','Index 0','It stops and reports an error'], a:2, why:'Probing wraps around: after the last index comes index 0.'},
+  {t:'mcq', q:'While searching, you reach an <b>empty slot</b> before finding the key. What does that mean?', o:['The key is not in the map','Keep probing, it must be further on','The map is corrupted','The key was deleted'], a:0, why:'The key would have been placed in the first empty slot on its probe path, so an empty slot proves it was never inserted.'},
+  {t:'mcq', q:'Average-case time to search a hash map?', o:['O(1)','O(log n)','O(n)','O(n log n)'], a:0, why:'The hash function jumps straight to the slot. O(log n) is the balanced BST.'},
+  {t:'mcq', q:'Worst-case time to search a hash map?', o:['O(1)','O(log n)','O(n)','O(n²)'], a:2, why:'If every key collides, probing walks along most of the table.'},
+  {t:'mcq', q:'Which statement about keys and values is correct?', o:['Keys are unique, values may repeat','Keys may repeat, values are unique','Both must be unique','Both may repeat'], a:0, why:'Keys identify entries, so they must be unique. Two keys can hold equal values.'},
+  {t:'mcq', q:'You need to list all keys in sorted order. Which is the better fit?', o:['Hash map','Binary search tree (in-order traversal)'], a:1, why:'A hash map does not keep keys sorted. A BST gives sorted order from an in-order traversal.'}
+];
+QUIZ['hash-tf'] = [
+  {t:'tf', q:'A hash map stores data in key-value pairs.', a:true, why:'Each entry links a unique key to a value.'},
+  {t:'tf', q:'The average time complexity for searching in a hash map is O(log n).', a:false, why:'It is O(1) on average. O(log n) belongs to a balanced BST.'},
+  {t:'tf', q:'Hash maps can have duplicate keys.', a:false, why:'Keys must be unique. Values can be duplicated.'},
+  {t:'tf', q:'A hash function determines the index where a key-value pair will be stored.', a:true, why:'For example <code>key % array_size</code>.'},
+  {t:'tf', q:'Hash collisions can never occur in a hash map.', a:false, why:'Different keys can map to the same index, which is why collision handling (such as linear probing) exists.'},
+  {t:'tf', q:'Linear probing is one method to resolve hash collisions.', a:true, why:'It tries the next index, one step at a time, until it finds an empty slot.'},
+  {t:'tf', q:'The keys in a hash map are always stored in sorted order.', a:false, why:'The hash function scatters keys. Stored order follows the hash, not the sort order.'},
+  {t:'tf', q:'In a hash map, the values must be unique.', a:false, why:'Only keys must be unique.'},
+  {t:'tf', q:'Hash maps are suitable for storing large amounts of unordered data with fast access times.', a:true, why:'That is their main strength: fast lookup by key, average O(1).'},
+  {t:'tf', q:'Values in a hash map are accessed by their index.', a:false, why:'You look up a value by its <b>key</b>. The hash function finds the index for you.'}
+];
+
+/* ============ TRACE DATA ============ */
+var TRACE = {};
+TRACE.queue = [
+  {title:'Trace 1: the lesson\'s Main program', code:
+`Queue queue = new Queue();
+queue.enqueue(5);
+
+Integer result = queue.dequeue();
+if (result != null)
+   System.out.println("Dequeued: " + result);
+
+result = queue.dequeue();
+if (result != null)
+   System.out.println("Dequeued: " + result);
+
+queue.enqueue(7);
+queue.enqueue(3);
+queue.enqueue(9);
+
+result = queue.dequeue();
+if (result != null)
+   System.out.println("Dequeued: " + result);
+
+result = queue.peek();
+if (result != null)
+   System.out.println("Front of the queue: " + result);`,
+   q:'What is printed? (Queue.java prints a message inside enqueue, and an underflow message inside dequeue.)',
+   out:`5 has been added to the queue.
+Dequeued: 5
+Queue Underflow: No elements to dequeue.
+7 has been added to the queue.
+3 has been added to the queue.
+9 has been added to the queue.
+Dequeued: 7
+Front of the queue: 3`,
+   steps:['<code>enqueue(5)</code>: queue is [5]. Prints the "added" message.','<code>dequeue()</code>: removes 5, returns 5. Main prints <code>Dequeued: 5</code>. Queue is empty.','<code>dequeue()</code> again: queue is empty, so the method itself prints the underflow message and returns null. The <code>if (result != null)</code> is false, so Main prints nothing more.','Enqueue 7, 3, 9: queue is [7, 3, 9], front is 7.','<code>dequeue()</code> returns 7. Queue is [3, 9].','<code>peek()</code> returns 3 and removes nothing.']},
+  {title:'Trace 2: results that are never printed', code:
+`Queue q = new Queue();
+q.enqueue(4);
+q.enqueue(8);
+q.dequeue();
+q.enqueue(2);
+Integer r = q.peek();
+System.out.println("Front: " + r);
+q.dequeue();
+q.dequeue();
+r = q.dequeue();
+if (r != null)
+   System.out.println("Dequeued: " + r);`,
+   q:'What is printed, and what is the queue at the end?',
+   out:`4 has been added to the queue.
+8 has been added to the queue.
+2 has been added to the queue.
+Front: 8
+Queue Underflow: No elements to dequeue.`,
+   steps:['Enqueue 4, then 8: [4, 8]. Two "added" lines.','<code>q.dequeue();</code> removes 4. The returned value is thrown away, so nothing prints. Queue: [8].','Enqueue 2: [8, 2]. Prints the "added" line.','<code>peek()</code> returns 8, so <code>Front: 8</code>.','Two more dequeues remove 8 and then 2, silently. Queue is empty.','The last <code>dequeue()</code> hits an empty queue: prints the underflow message, returns null, so the <code>if</code> prints nothing.'],
+   note:'Only <code>enqueue</code> and the underflow case print inside the class. A successful <code>dequeue()</code> prints nothing unless Main prints the result.'},
+  {title:'Trace 3: track the contents', code:
+`queue.enqueue(1);
+queue.enqueue(2);
+queue.enqueue(3);
+queue.dequeue();
+queue.enqueue(4);
+queue.dequeue();
+Integer r = queue.peek();
+System.out.println("Front: " + r);`,
+   q:'List the queue after every line, then give the output.',
+   out:`1 has been added to the queue.
+2 has been added to the queue.
+3 has been added to the queue.
+4 has been added to the queue.
+Front: 3`,
+   steps:['After enqueue 1, 2, 3: <code>[1, 2, 3]</code> (front is on the left).','dequeue removes 1: <code>[2, 3]</code>.','enqueue 4: <code>[2, 3, 4]</code>.','dequeue removes 2: <code>[3, 4]</code>.','peek returns 3, the front. Final queue: front 3, back 4.']},
+  {title:'Trace 4: peek on an empty queue', code:
+`Integer r = queue.peek();
+if (r != null)
+   System.out.println("Front: " + r);
+queue.enqueue(6);
+r = queue.peek();
+if (r != null)
+   System.out.println("Front: " + r);`,
+   q:'Assume the queue starts empty. What is printed?',
+   out:`No elements to display.
+6 has been added to the queue.
+Front: 6`,
+   steps:['The first <code>peek()</code> finds an empty queue: it prints its own message and returns null. Main\'s <code>if</code> skips the print.','enqueue(6) prints the "added" line.','The second peek returns 6 and Main prints <code>Front: 6</code>.']}
+];
+TRACE.binary = [
+  {title:'Trace 1: the lesson\'s level-order sample', code:
+`Node root = new Node(10);
+BinaryTree tree = new BinaryTree(root);
+tree.insert(root, 11);
+tree.insert(root, 7);
+tree.insert(root, 9);
+tree.insert(root, 15);
+tree.insert(root, 8);
+tree.insert(root, 13);
+tree.insert(root, 12);
+
+System.out.println("Preorder traversal of binary tree is ");
+tree.printPreorder();
+System.out.println("\\nInorder traversal of binary tree is ");
+tree.printInorder();
+System.out.println("\\nPostorder traversal of binary tree is ");
+tree.printPostorder();`,
+   q:'Where does each key go, and what are the three traversals?',
+   out:`Preorder traversal of binary tree is 
+10 11 9 12 15 7 8 13 
+Inorder traversal of binary tree is 
+12 9 11 15 10 8 7 13 
+Postorder traversal of binary tree is 
+12 9 15 11 8 13 7 10 `,
+   steps:['11: root has no left child → left of 10.','7: root\'s left is taken, its right is empty → right of 10.','9: root is full. Check 11 next (front of the queue): no left child → left of 11.','15: 11\'s left is taken, its right is empty → right of 11.','8: 10 and 11 are full. Next is 7: no left child → left of 7.','13: right of 7.','12: 10, 11, 7 are full. Next is 9: no left child → left of 9.','Final tree: 10 has children 11 and 7. 11 has 9 and 15. 7 has 8 and 13. 9 has left child 12.'],
+   note:'No value comparisons happen. 7 sits to the right of 10 and 9 sits below 11 purely because of which spot was empty first.'},
+  {title:'Trace 2: your own level-order build', code:
+`Node root = new Node(1);
+BinaryTree tree = new BinaryTree(root);
+tree.insert(root, 2);
+tree.insert(root, 3);
+tree.insert(root, 4);
+tree.insert(root, 5);
+tree.insert(root, 6);`,
+   q:'Draw the tree, then write the pre-order, in-order and post-order traversals.',
+   tree:{keys:[1, 2, 3, 4, 5, 6], mode:'level'},
+   outLabel:'Answer', out:`Pre-order : 1 2 4 5 3 6
+In-order  : 4 2 5 1 6 3
+Post-order: 4 5 2 6 3 1`,
+   steps:['2 → left of 1. 3 → right of 1. 4 → left of 2. 5 → right of 2. 6 → left of 3.','The picture above shows the result. Each level fills left to right before the next level starts.','Pre-order (Root, Left, Right): 1, then 2\'s subtree (2 4 5), then 3\'s subtree (3 6).','In-order (Left, Root, Right): 4 2 5, then 1, then 6 3.','Post-order (Left, Right, Root): 4 5 2, then 6 3, then 1.']},
+  {title:'Trace 3: read a traversal off a picture', code:`// the tree below was built by inserting 8, 3, 10, 1, 6, 14, 4, 7, 13 (BST rule)`,
+   q:'Write all three traversals of this tree.',
+   tree:{keys:[8, 3, 10, 1, 6, 14, 4, 7, 13], mode:'bst'},
+   outLabel:'Answer', out:`Pre-order : 8 3 1 6 4 7 10 14 13
+In-order  : 1 3 4 6 7 8 10 13 14
+Post-order: 1 4 7 6 3 13 14 10 8`,
+   steps:['Pre-order: visit 8, then the whole left subtree (3, 1, then 6 with 4 and 7), then the right subtree (10, 14, 13).','In-order comes out sorted, because this is a BST. That is a built-in check on your answer.','Post-order ends with the root, 8, and each subtree ends with its own root: 3 comes after 1 4 7 6, and 10 comes after 13 14.']},
+  {title:'Trace 4: which traversal is this?', code:
+`void mystery(Node n) {
+   if (n == null)
+      return;
+   mystery(n.getLeft());
+   mystery(n.getRight());
+   System.out.print(n.getKey() + " ");
+}`,
+   q:'The method is called on the root of the tree below. What is printed, and which traversal is it?',
+   tree:{keys:[4, 2, 6, 1, 3, 5, 7], mode:'bst'},
+   out:`1 3 2 5 7 6 4`,
+   steps:['The print line comes <b>after</b> both recursive calls, so each node prints after its whole left and right subtrees: that is <b>post-order</b>.','Left subtree of 4: 1 and 3 print first, then their parent 2.','Right subtree of 4: 5 and 7 print, then 6.','Finally the root, 4.']}
+];
+TRACE.bst = [
+  {title:'Trace 1: the lesson\'s BST program', code:
+`BinarySearchTree tree = new BinarySearchTree();
+tree.insert(50);
+tree.insert(30);
+tree.insert(20);
+tree.insert(40);
+tree.insert(70);
+tree.insert(60);
+tree.insert(80);
+
+tree.search(50);
+tree.search(30);
+tree.search(55);
+
+System.out.println("\\nInorder traversal of binary tree is ");
+tree.printInorder(tree.getRoot());`,
+   q:'What is printed? Be careful with the \\n characters.',
+   out:`
+50 was found in the tree.
+30 was found in the tree.
+55 does not exists in the tree.
+Inorder traversal of binary tree is 
+20 30 40 50 60 70 80 `,
+   steps:['The tree: 50 at the top, 30 and 70 below it, then 20, 40, 60, 80.','<code>search</code> prints with <code>System.out.print("\\n" + ...)</code>: the newline comes <b>before</b> each message. So the output begins with an empty line, and there is no empty line between messages.','search(50): the root matches → found. search(30): 30 &lt; 50 → left child is 30 → found.','search(55): 55 &gt; 50 → right (70). 55 &lt; 70 → left (60). 55 &lt; 60 → left of 60 is null → not found. The program prints "does not exists" (sic).','The in-order heading begins with <code>\\n</code>, so it starts on a new line. Then the keys print in sorted order.'],
+   note:'The first line of the output is blank. If the question reproduces the exact output, include it.'},
+  {title:'Trace 2: build, search, and count', code:
+`tree.insert(40);
+tree.insert(20);
+tree.insert(60);
+tree.insert(10);
+tree.insert(30);
+tree.insert(50);
+tree.insert(70);
+tree.search(30);`,
+   q:'Draw the tree. Give the three traversals and say how many nodes <code>search(30)</code> visits.',
+   tree:{keys:[40, 20, 60, 10, 30, 50, 70], mode:'bst'},
+   outLabel:'Answer', out:`Pre-order : 40 20 10 30 60 50 70
+In-order  : 10 20 30 40 50 60 70
+Post-order: 10 30 20 50 70 60 40
+search(30) visits 40, 20, 30 = 3 nodes`,
+   steps:['30 &lt; 40 → left to 20. 30 &gt; 20 → right to 30. Match. Three nodes visited.','This tree is perfectly balanced, 7 nodes with height 2. Any search needs at most 3 nodes.']},
+  {title:'Trace 3: the skewed tree', code:
+`tree.insert(2);
+tree.insert(3);
+tree.insert(5);
+tree.insert(8);
+tree.search(8);`,
+   q:'What shape does the tree have? How many nodes does <code>search(8)</code> visit? What is the time complexity?',
+   tree:{keys:[2, 3, 5, 8], mode:'bst'},
+   outLabel:'Answer', out:`Shape: a chain going right (skewed)
+search(8) visits 2, 3, 5, 8 = 4 nodes = all of them
+Time: O(n)`,
+   steps:['3 &gt; 2 → right. 5 &gt; 3 → right. 8 &gt; 5 → right. Each new key is the biggest so far.','Height is 3 edges for 4 nodes (n − 1). Searching the last key visits every node.','Sorted input is the classic way to get the O(n) worst case.']},
+  {title:'Trace 4: duplicates and a failed search', code:
+`tree.insert(20);
+tree.insert(10);
+tree.insert(30);
+tree.insert(10);
+tree.insert(20);
+tree.search(25);
+tree.printInorder(tree.getRoot());`,
+   q:'What is the final tree, what does the search print, and what does the in-order traversal print?',
+   tree:{keys:[20, 10, 30], mode:'bst'},
+   outLabel:'Answer', out:`
+25 does not exists in the tree.
+10 20 30 `,
+   steps:['The second 10 and the second 20 are equal to existing keys. <code>insertNode</code> goes neither left nor right, so the tree is unchanged.','search(25): 25 &gt; 20 → right to 30. 25 &lt; 30 → left of 30 is null → not found.','In-order prints each key once, sorted.']}
+];
+TRACE.graph = [
+  {title:'Trace 1: the lesson\'s graph program', code:
+`Graph graph = new Graph();
+graph.addVertex(1);
+graph.addVertex(2);
+graph.addVertex(3);
+graph.addVertex(4);
+graph.addVertex(5);
+
+graph.addEdge(1, 2);
+graph.addEdge(1, 3);
+graph.addEdge(2, 4);
+graph.addEdge(2, 5);
+
+graph.displayGraph();`,
+   q:'What does <code>displayGraph()</code> print? (Each vertex prints "\\nVertex n", then "\\nNeighbors: ", then its neighbors with a space after each.)',
+   out:`
+Vertex 1
+Neighbors: 2 3 
+
+Vertex 2
+Neighbors: 1 4 5 
+
+Vertex 3
+Neighbors: 1 
+
+Vertex 4
+Neighbors: 2 
+
+Vertex 5
+Neighbors: 2 `,
+   steps:['Each <code>addEdge</code> adds both directions, so the graph is undirected.','addEdge(1,2): 1 gets 2, and 2 gets 1. addEdge(1,3): 1 gets 3, and 3 gets 1.','addEdge(2,4): 2 gets 4 (after its earlier 1), and 4 gets 2. addEdge(2,5): 2 gets 5, and 5 gets 2.','Neighbors list in the <b>order the edges were added</b>, so vertex 2 prints <code>1 4 5</code>.','Because of the leading <code>\\n</code>, there is a blank line before every Vertex line.']},
+  {title:'Trace 2: neighbor order matters', code:
+`graph.addVertex(1);
+graph.addVertex(2);
+graph.addVertex(3);
+graph.addVertex(4);
+
+graph.addEdge(1, 2);
+graph.addEdge(2, 3);
+graph.addEdge(3, 1);
+graph.addEdge(3, 4);
+graph.displayGraph();`,
+   q:'Which neighbors does each vertex list, in what order?',
+   outLabel:'Answer', out:`Vertex 1: 2 3
+Vertex 2: 1 3
+Vertex 3: 2 1 4
+Vertex 4: 3`,
+   steps:['(1,2): 1 → [2], 2 → [1].','(2,3): 2 → [1, 3], 3 → [2].','(3,1): 3 → [2, 1], 1 → [2, 3].','(3,4): 3 → [2, 1, 4], 4 → [3].','Vertex 3 is the trap: it lists 2 first because edge (2,3) came before (3,1).']},
+  {title:'Trace 3: a missing vertex', code:
+`graph.addVertex(1);
+graph.addVertex(2);
+graph.addVertex(3);
+graph.addEdge(1, 2);
+graph.addEdge(2, 5);
+graph.addEdge(3, 1);
+graph.displayGraph();`,
+   q:'What is printed? What neighbors does each vertex have?',
+   out:`One or more vertices not found.
+
+Vertex 1
+Neighbors: 2 3 
+
+Vertex 2
+Neighbors: 1 
+
+Vertex 3
+Neighbors: 1 `,
+   steps:['<code>addEdge(2, 5)</code>: vertex 5 does not exist, so <code>findVertex(5)</code> returns null and the else branch prints the message <b>immediately</b>. No edge is added.','The other two edges work: 1 has [2, 3], 2 has [1], 3 has [1].','The message is printed first (during addEdge), then the display output follows.']},
+  {title:'Trace 4: describe a graph', code:
+`V = {A, B, C, D}
+E = {{A,B}, {B,C}, {C,A}, {C,D}}`,
+   q:'Give each vertex\'s degree. Is it connected? Does it have a cycle? Is it a tree? Is there an Eulerian circuit?',
+   outLabel:'Answer', out:`Degrees: A = 2, B = 2, C = 3, D = 1  (sum 8 = 2 × 4 edges)
+Connected: yes
+Cycle: yes (A - B - C - A)
+Tree: no (4 edges, but a 4-vertex tree has only 3)
+Eulerian circuit: no (C and D have odd degree)`,
+   steps:['The curly braces mean undirected edges.','A touches {A,B} and {C,A}. B touches {A,B} and {B,C}. C touches three edges. D touches one.','Everything is reachable from everything, so connected.','A, B, C form a triangle, which is a cycle, so it cannot be a tree.','Two vertices have odd degree, so there is no circuit. There is an Eulerian <b>path</b> (start at C, end at D, or the reverse).']}
+];
+TRACE.hash = [
+  {title:'Trace 1: fill a table of size 7', code:
+`size = 7        hash(key) = key % 7        linear probing
+Insert (8, W)
+Insert (15, X)
+Insert (22, Y)
+Insert (3, Z)
+Search 3`,
+   q:'Show the table after the four inserts, then say which indexes are checked when searching for 3.',
+   outLabel:'Answer', out:`Index | Key | Value
+  0   |     |
+  1   |  8  | W
+  2   | 15  | X
+  3   | 22  | Y
+  4   |  3  | Z
+  5   |     |
+  6   |     |
+
+search(3): hash = 3 → index 3 holds 22 (no) → index 4 holds 3 (yes)`,
+   steps:['8 % 7 = 1. Slot 1 is empty → store at 1.','15 % 7 = 1. Slot 1 is taken (8) → try 2: empty → store at 2.','22 % 7 = 1. Slot 1 and 2 are taken → try 3: empty → store at 3.','3 % 7 = 3. Slot 3 is taken (22) → try 4: empty → store at 4.','Search 3 starts at index 3 (3 % 7), where 22 sits. One probe further, index 4, holds 3. Found, value Z.']},
+  {title:'Trace 2: wrap-around in a table of size 5', code:
+`size = 5        hash(key) = key % 5
+Insert 12, 7, 22, 4, 9
+Search 99`,
+   q:'Show the table. What happens when you search for 99?',
+   outLabel:'Answer', out:`Index | Key
+  0   |  4
+  1   |  9
+  2   | 12
+  3   |  7
+  4   | 22
+
+search(99): 99 % 5 = 4 → checks 4, 0, 1, 2, 3 → back to the start: not found`,
+   steps:['12 % 5 = 2 → index 2.','7 % 5 = 2: taken → index 3.','22 % 5 = 2: taken, 3 taken → index 4.','4 % 5 = 4: taken (22). The next index after 4 <b>wraps to 0</b> → index 0.','9 % 5 = 4: 4 taken, 0 taken → index 1. Now the table is full.','Search 99: hash is 4. No slot is empty, so it checks 4, 0, 1, 2, 3, comes back around to the starting index, and stops: a full loop without a match means the key is not in the map.']},
+  {title:'Trace 3: a long collision chain', code:
+`size = 11       hash(key) = key % 11
+Insert 25, 36, 47
+Search 47`,
+   q:'Compute the three hashes, place the keys, and count how many slots are checked to find 47. What does this say about worst-case time?',
+   outLabel:'Answer', out:`25 % 11 = 3 → index 3
+36 % 11 = 3 → taken → index 4
+47 % 11 = 3 → taken, taken → index 5
+search(47): checks indexes 3, 4, 5 = 3 slots`,
+   steps:['11 × 2 = 22, and 25 − 22 = 3. 11 × 3 = 33, and 36 − 33 = 3. 11 × 4 = 44, and 47 − 44 = 3. All three keys want index 3.','The more keys that collide, the longer the chain a search must follow. If <b>all n keys</b> collide, a search checks up to n slots: the O(n) worst case. Normally keys spread out and a search needs about one check: O(1) average.']},
+  {title:'Trace 4: counting words with a Java HashMap', code:
+`String[] words = {"to", "be", "or", "not", "to", "be"};
+Map<String, Integer> count = new HashMap<>();
+for (String w : words)
+   count.put(w, count.getOrDefault(w, 0) + 1);`,
+   q:'What are <code>count.get("to")</code> and <code>count.size()</code>? What can you say about the printed order of the keys?',
+   outLabel:'Answer', out:`count.get("to") = 2
+count.size()    = 4   (to, be, or, not)
+be = 2, or = 1, not = 1`,
+   steps:['Frequency counting is one of the listed hash map applications. The key is the word and the value is how many times it has been seen.','"to" and "be" appear twice, "or" and "not" once. Four distinct keys, so size is 4.','Printing the map does <b>not</b> give sorted or insertion order. The slots follow the hash function.']}
+];
+initPage();
+</script>
+
+</body></html>
